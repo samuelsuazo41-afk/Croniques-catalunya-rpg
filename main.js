@@ -10,7 +10,7 @@ let EMOJIS_JUGABLES = [];
 const EMOJIS_STARTER = [
   {emoji: "😀", nom_cat: "Somriure", categoria: "emocio", para_frases: ["riu", "content"]},
   {emoji: "😊", nom_cat: "Feliç", categoria: "emocio", para_frases: ["feliç", "content"]},
-  {emoji: "😂", nom_cat: "Riure", categoria: "emocio", para_frases: ["riure", "riure molt"]},
+  {emoji: "😂", nom_cat: "Riure", categoria: "emocio", para_frases: ["riure", "riure"]},
   {emoji: "👨", nom_cat: "Home", categoria: "persona", para_frases: ["home", "pare"]},
   {emoji: "👩", nom_cat: "Dona", categoria: "persona", para_frases: ["dona", "mare"]},
   {emoji: "🐶", nom_cat: "Gos", categoria: "animal", para_frases: ["gos", "gosset"]},
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.addEventListener('click', (e) => {
     if(e.target.id === 'btnMapa') tornarMapa();
-    if(e.target.id === 'btnRepetir') mostrarModal("Vols repetir aquesta missió?", () => repetirCapitolActual());
+    if(e.target.id === 'btnRepetir') repetirCapitolActual(); // CAMBIO: directo sin modal
   });
 });
 
@@ -407,11 +407,9 @@ function entrarCapitol(id) {
 function repetirCapitol(id) {
   const capitol = CAPITOLS.find(c => c.id === id);
   if (!capitol) return;
-  mostrarModal(idioma === 'ca'? 'Vols repetir aquesta missió?' : '¿Quieres repetir esta misión?', () => {
-    estat.capitolsCompletats = estat.capitolsCompletats.filter(c => c!== id);
-    guardarEstat();
-    carregarCapitol(capitol.archivo);
-  });
+  estat.capitolsCompletats = estat.capitolsCompletats.filter(c => c!== id);
+  guardarEstat();
+  carregarCapitol(capitol.archivo);
 }
 
 async function carregarCapitol(nombreArchivo) {
@@ -442,6 +440,9 @@ async function carregarCapitol(nombreArchivo) {
             <strong id="npc-nom" style="font-size:16px; display:block; margin-bottom:4px;"></strong>
             <p id="npc-dialog" style="margin:0; line-height:1.4;"></p>
           </div>
+        </div>
+        <div id="npc-progress" style="height:4px; background:#333; border-radius:2px; margin-top:12px; display:none; overflow:hidden;">
+          <div id="npc-progress-fill" style="height:100%; width:0%; background:var(--accent);"></div>
         </div>
         <div style="display:flex; align-items:center; gap:10px; margin-top:15px; padding-top:12px; border-top:1px solid #333; opacity:0.8;">
           <span id="jugador-emoji" style="font-size:32px;"></span>
@@ -514,8 +515,10 @@ function seleccionarOpcio(idx) {
 
   estat.bloquejat = true;
   document.querySelectorAll('.opcio').forEach(o => o.classList.add('disabled'));
-  const tempsLectura = 6000;
-  mostrarFeedback(feedback, tempsLectura);
+
+  // CAMBIO: 6 segundos y barra sincronizada
+  const duracio = 6000;
+  mostrarFeedback(feedback, duracio);
 
   if(opcio.correcte && AUDIO_ENCERT) AUDIO_ENCERT.play();
   if(!opcio.correcte && AUDIO_FALLADA) AUDIO_FALLADA.play();
@@ -540,12 +543,28 @@ function seleccionarOpcio(idx) {
     estat.bloquejat = false;
     estat.pasActual++;
     carregarPas();
-  }, tempsLectura);
+  }, duracio);
 }
 
 function mostrarFeedback(text, duracio) {
   const feedbackDiv = document.getElementById('missio-feedback');
   feedbackDiv.innerHTML = `<div id="feedback-box"><p>${text}</p><div id="feedback-barra" style="animation-duration: ${duracio}ms;"></div></div>`;
+
+  // Activar barra de progreso del NPC
+  const progressBar = document.getElementById('npc-progress');
+  const progressFill = document.getElementById('npc-progress-fill');
+  if (progressBar && progressFill) {
+    progressBar.style.display = 'block';
+    progressFill.style.transition = `width ${duracio}ms linear`;
+    progressFill.style.width = '0%';
+    void progressFill.offsetWidth;
+    progressFill.style.width = '100%';
+  }
+
+  setTimeout(() => {
+    if (progressBar) progressBar.style.display = 'none';
+    if (progressFill) progressFill.style.width = '0%';
+  }, duracio);
 }
 
 function completarCapitol() {
@@ -719,7 +738,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
-  .then(([barcelona, girona, valencia]) => {
+   .then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -744,7 +763,7 @@ function mostrarGremi(tab, e) {
         }
       });
     })
-  .catch(err => console.error('Error carregant llegendes:', err));
+   .catch(err => console.error('Error carregant llegendes:', err));
   }
 }
 
@@ -835,9 +854,9 @@ function carregarFrasesMinijoc() {
 function generarEmojisParaFraseCorta(frase) {
   const emojisJugador = EMOJIS_JUGABLES.map(e => e.emoji);
   const emojisFalsos = emojisJugador
-.filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
-.sort(() => 0.5 - Math.random())
-.slice(0, 10 - frase.solucio.length);
+   .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
+   .sort(() => 0.5 - Math.random())
+   .slice(0, 10 - frase.solucio.length);
 
   const emojisAMostrar = [...frase.solucio,...emojisFalsos].sort(() => 0.5 - Math.random());
   estat.minijoc.emojisDisponibles = emojisAMostrar;
