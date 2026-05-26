@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Cròniques de Catalunya RPG</title>
+<title> Croniques de Catalunya RPG</title>
 <meta name="description" content="RPG per aprendre català jugant">
 <meta name="theme-color" content="#FF6B35">
 <link rel="manifest" href="./manifest.json">
@@ -12,8 +12,9 @@
 <body>
 
 <header>
-  <h1 id="app-titol">Cròniques de Catalunya</h1>
+  <h1 id="app-titol">Croniques Catalunya RPG</h1>
   <div id="totem-display" style="font-size: 12px; margin-top: 4px;"></div>
+  <!-- BOTÓN AJUSTES ELIMINADO -->
 </header>
 
 <div class="stats-bar">
@@ -27,7 +28,7 @@
 </div>
 
 <div class="container">
-
+  
   <div id="tab-mapa" class="tab-content active">
     <h2 id="text-mon" style="margin-bottom: 20px;">🗺️ Mapa de Catalunya</h2>
     <div id="mapa"></div>
@@ -36,29 +37,30 @@
   <div id="tab-missio" class="tab-content">
     <div id="missio-card">
       <h3 id="missio-titol">Selecciona una missió al mapa</h3>
-
+      
+      <!-- RUTES SECRETES - CAMBIO PUNTO 7 -->
       <div id="rutes-secretes" style="display:none;">
         <h3 style="margin:20px 0 12px 0;">🔒 Rutes Secretes</h3>
-
+        
         <div class="capitol-card ruta-secreta" id="ruta-valencia">
           <div class="capitol-icona">🔒</div>
           <h4>Ruta Secreta de València</h4>
           <p class="ruta-secreta-txt">Falten 3 ítems per desbloquejar</p>
         </div>
-
+        
         <div class="capitol-card ruta-secreta" id="ruta-girona">
           <div class="capitol-icona">🔒</div>
           <h4>Ruta Secreta de Girona</h4>
           <p class="ruta-secreta-txt">Falten 3 ítems per desbloquejar</p>
         </div>
-
+        
         <div class="capitol-card ruta-secreta" id="ruta-tarragona">
           <div class="capitol-icona">🔒</div>
           <h4>Ruta Secreta de Tarragona</h4>
           <p class="ruta-secreta-txt">Falten 3 ítems per desbloquejar</p>
         </div>
       </div>
-
+      
       <div id="missio-escenari"></div>
       <div id="missio-opcions"></div>
       <div id="missio-feedback"></div>
@@ -72,12 +74,12 @@
       <button class="sub-tab-btn" onclick="mostrarGremi('objectes', event)">Objectes</button>
       <button class="sub-tab-btn" onclick="mostrarGremi('llegendes', event)">Llegendes</button>
     </div>
-
+    
     <div class="sub-tabs" id="biblioteca-subtabs" style="display:none;">
       <button class="sub-tab-btn active" onclick="mostrarBibliotecaTab('diccionari', event)">📖 Diccionari</button>
       <button class="sub-tab-btn" onclick="mostrarBibliotecaTab('minijocs', event)">🎮 Mini-jocs</button>
     </div>
-
+    
     <div id="gremi-contenidor"></div>
   </div>
 
@@ -107,6 +109,7 @@
   </div>
 </nav>
 
+<!-- MODAL CUSTOM PUNTO 2 - MANTENIDO -->
 <div id="modal" class="modal hidden">
   <div class="modal-content">
     <p id="modalText"></p>
@@ -116,6 +119,8 @@
     </div>
   </div>
 </div>
+
+<!-- MODAL AJUSTOS ELIMINADO COMPLETO -->
 
 <script>
 function vibrar() {
