@@ -6,7 +6,7 @@ let FRASES_MIXTAS = [];
 let CATEGORIES_EMOJI = {};
 let EMOJIS_JUGABLES = [];
 
-// Starter pack - siempre disponible para jugar desde el inicio
+// Starter pack
 const EMOJIS_STARTER = [
   {emoji: "😀", nom_cat: "Somriure", categoria: "emocio", para_frases: ["riu", "content"]},
   {emoji: "😊", nom_cat: "Feliç", categoria: "emocio", para_frases: ["feliç", "content"]},
@@ -42,83 +42,12 @@ let estat = {
   compres: JSON.parse(localStorage.getItem('cat_compres')) || [],
   emojisDesbloquejats: JSON.parse(localStorage.getItem('cat_emojis')) || ['😀','😊','😂','👨','👩','🐶','🏠','🍎','🚗','⚽'],
   packs_botiga: [],
-  minijoc: {
-    fraseObjectiu: null,
-    emojisTriats: [],
-    emojisDisponibles: [],
-    modo: 'corta'
-  }
+  minijoc: {fraseObjectiu: null, emojisTriats: [], emojisDisponibles: [], modo: 'corta'}
 };
 
 const LANGS = {
-  es: {
-    app_titol: "Cròniques de Catalunya RPG",
-    monedes: "Monedas",
-    tab_mapa: "Mundo",
-    tab_missio: "Misión",
-    tab_gremi: "Gremio",
-    tab_botiga: "Tienda",
-    text_mon: "🗺️ Mapa de Catalunya",
-    text_botiga: "🛒 Tienda",
-    entrar: "Entrar",
-    bloquejat: "Bloqueado",
-    completat: "Completado",
-    repetir: "Repetir",
-    volver_mapa: "Volver al mapa",
-    mision_completada: "¡Misión completada!",
-    item_desbloquejat: "¡Item desbloqueado!",
-    ruta_secreta: "Ruta secreta desbloquejada!",
-    repas_rapido: "Repàs Ràpid",
-    repas_titulo: "Repàs Ràpid - 5 Preguntes",
-    tria_personatge: "Tria el teu personatge",
-    nom_personatge: "Com et dius?",
-    canviar_personatge: "Canviar Personatge",
-    biblioteca: "Biblioteca",
-    biblioteca_desc: "Tots els personatges disponibles per les teves històries",
-    minijoc_titol: "Arma la frase",
-    minijoc_desc: "Tria els emojis per formar la frase",
-    comprovar: "Comprovar",
-    correcte: "Correcte!",
-    incorrecte: "No és així. Era:",
-    no_prou_monedes: "No tens prou monedes!",
-    comprat: "Comprat",
-    desbloqueja_ruta: "Amb 3 ítems del capítol {n} desbloqueges la ruta secreta de {ciutat}",
-    no_frases_disponibles: "Compra més emojis per desbloquejar frases!"
-  },
-  ca: {
-    app_titol: "Cròniques de Catalunya RPG",
-    monedes: "Monedes",
-    tab_mapa: "Món",
-    tab_missio: "Missió",
-    tab_gremi: "Gremi",
-    tab_botiga: "Botiga",
-    text_mon: "🗺️ Mapa de Catalunya",
-    text_botiga: "🛒 Botiga",
-    entrar: "Entrar",
-    bloquejat: "Bloquejat",
-    completat: "Completat",
-    repetir: "Repetir",
-    volver_mapa: "Tornar al mapa",
-    mision_completada: "Missió completada!",
-    item_desbloquejat: "Item desbloquejat!",
-    ruta_secreta: "Ruta secreta desbloquejada!",
-    repas_rapido: "Repàs Ràpid",
-    repas_titulo: "Repàs Ràpid - 5 Preguntes",
-    tria_personatge: "Tria el teu personatge",
-    nom_personatge: "Com et dius?",
-    canviar_personatge: "Canviar Personatge",
-    biblioteca: "Biblioteca",
-    biblioteca_desc: "Tots els personatges disponibles per les teves històries",
-    minijoc_titol: "Arma la frase",
-    minijoc_desc: "Tria els emojis per formar la frase",
-    comprovar: "Comprovar",
-    correcte: "Correcte!",
-    incorrecte: "No és així. Era:",
-    no_prou_monedes: "No tens prou monedes!",
-    comprat: "Comprat",
-    desbloqueja_ruta: "Amb 3 ítems del capítol {n} desbloqueges la ruta secreta de {ciutat}",
-    no_frases_disponibles: "Compra més emojis per desbloquejar frases!"
-  }
+  es: {app_titol: "Cròniques de Catalunya RPG", monedes: "Monedas", tab_mapa: "Mundo", tab_missio: "Misión", tab_gremi: "Gremio", tab_botiga: "Tienda", text_mon: "🗺️ Mapa de Catalunya", text_botiga: "🛒 Tienda", entrar: "Entrar", bloquejat: "Bloqueado", completat: "Completado", repetir: "Repetir", volver_mapa: "Volver al mapa", mision_completada: "¡Misión completada!", item_desbloquejat: "¡Item desbloqueado!", ruta_secreta: "Ruta secreta desbloquejada!", repas_rapido: "Repàs Ràpid", repas_titulo: "Repàs Ràpid - 5 Preguntes", tria_personatge: "Tria el teu personatge", nom_personatge: "Com et dius?", canviar_personatge: "Canviar Personatge", biblioteca: "Biblioteca", biblioteca_desc: "Tots els personatges disponibles per les teves històries", minijoc_titol: "Arma la frase", minijoc_desc: "Tria els emojis per formar la frase", comprovar: "Comprovar", correcte: "Correcte!", incorrecte: "No és així. Era:", no_prou_monedes: "No tens prou monedes!", comprat: "Comprat", desbloqueja_ruta: "Amb 3 ítems del capítol {n} desbloqueges la ruta secreta de {ciutat}", no_frases_disponibles: "Compra més emojis per desbloquejar frases!"},
+  ca: {app_titol: "Cròniques de Catalunya RPG", monedes: "Monedes", tab_mapa: "Món", tab_missio: "Missió", tab_gremi: "Gremi", tab_botiga: "Botiga", text_mon: "🗺️ Mapa de Catalunya", text_botiga: "🛒 Botiga", entrar: "Entrar", bloquejat: "Bloquejat", completat: "Completat", repetir: "Repetir", volver_mapa: "Tornar al mapa", mision_completada: "Missió completada!", item_desbloquejat: "Item desbloquejat!", ruta_secreta: "Ruta secreta desbloquejada!", repas_rapido: "Repàs Ràpid", repas_titulo: "Repàs Ràpid - 5 Preguntes", tria_personatge: "Tria el teu personatge", nom_personatge: "Com et dius?", canviar_personatge: "Canviar Personatge", biblioteca: "Biblioteca", biblioteca_desc: "Tots els personatges disponibles per les teves històries", minijoc_titol: "Arma la frase", minijoc_desc: "Tria els emojis per formar la frase", comprovar: "Comprovar", correcte: "Correcte!", incorrecte: "No és així. Era:", no_prou_monedes: "No tens prou monedes!", comprat: "Comprat", desbloqueja_ruta: "Amb 3 ítems del capítol {n} desbloqueges la ruta secreta de {ciutat}", no_frases_disponibles: "Compra més emojis per desbloquejar frases!"}
 };
 
 let idioma = localStorage.getItem('cat_idioma') || 'ca';
@@ -131,49 +60,18 @@ const PERSONATGES_JUGADOR = [
   {id: 'dona', emoji: '👩', nom: 'Dona'}
 ];
 
-const NIVELL_MINIJOC = {
-  minEmojis: 2,
-  maxEmojis: 5,
-  nivelActual: parseInt(localStorage.getItem('cat_nivell_minijoc')) || 1
-};
+const NIVELL_MINIJOC = {minEmojis: 2, maxEmojis: 5, nivelActual: parseInt(localStorage.getItem('cat_nivell_minijoc')) || 1};
 
 const CAPITOLS = [
-  {
-    id: "capitol_01_bcn_born",
-    nom: "Barcelona - El Born",
-    icona: "🏛️",
-    desbloquejat: true,
-    desc: `Arribes al Born. Si parles bé,\net conviden a vermut 🍷`,
-    archivo: "capitol_01_bcn_born.json",
-    recompensa_100: {item_id: "camisa_cenguera_barca", ruta: "ruta_rave_port_olympic"}
-  },
-  {
-    id: "capitol_02_girona",
-    nom: "Girona - Temps de Flors",
-    icona: "⚜️",
-    desbloquejat: false,
-    desc: "Flors als carrers. Català més lent, més de poble.",
-    archivo: "capitol_02_girona.json",
-    requereix: "capitol_01_bcn_born",
-    recompensa_100: {item_id: "flor_suprema_temps_flors", ruta: "ruta_girona_muralla_viva"}
-  },
-  {
-    id: "capitol_03_fires_valencia",
-    nom: "València - Fira de Falles",
-    icona: "🔥",
-    desbloquejat: false,
-    desc: "La fira està encesa. Parla amb la gent i guanya el Fuet del Foc.",
-    archivo: "capitol_03_fires_valencia.json",
-    requereix: "capitol_02_girona",
-    recompensa_100: {item_id: "clau_de_la_lonja", ruta: "ruta_valencia_ciutat_vella"}
-  }
+  {id: "capitol_01_bcn_born", nom: "Barcelona - El Born", icona: "🏛️", desbloquejat: true, desc: `Arribes al Born. Si parles bé,\net conviden a vermut 🍷`, archivo: "capitol_01_bcn_born.json", recompensa_100: {item_id: "camisa_cenguera_barca", ruta: "ruta_rave_port_olympic"}},
+  {id: "capitol_02_girona", nom: "Girona - Temps de Flors", icona: "⚜️", desbloquejat: false, desc: "Flors als carrers. Català més lent, més de poble.", archivo: "capitol_02_girona.json", requereix: "capitol_01_bcn_born", recompensa_100: {item_id: "flor_suprema_temps_flors", ruta: "ruta_girona_muralla_viva"}},
+  {id: "capitol_03_fires_valencia", nom: "València - Fira de Falles", icona: "🔥", desbloquejat: false, desc: "La fira està encesa. Parla amb la gent i guanya el Fuet del Foc.", archivo: "capitol_03_fires_valencia.json", requereix: "capitol_02_girona", recompensa_100: {item_id: "clau_de_la_lonja", ruta: "ruta_valencia_ciutat_vella"}}
 ];
 
 let ITEMS = {};
 let AUDIO_ENCERT = null;
 let AUDIO_FALLADA = null;
 
-// --- MÚSICA ---
 let audioCtx = false;
 let musicaLoop = false;
 let melodiaActual = false;
@@ -184,7 +82,6 @@ const MELODIAS = {
   calma: [{freq: 147, dur: 3.0}, {freq: 165, dur: 3.0}]
 };
 
-// --- MODAL CUSTOM ---
 let accioPendents = null;
 
 function mostrarModal(text, accio = null) {
@@ -219,7 +116,6 @@ function iniciarMusicaChiptune(nombreMelodia = 'estudio') {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const notas = MELODIAS[nombreMelodia];
   let tiempo = audioCtx.currentTime;
-
   function tocarNota(nota) {
     if (nota.freq === 0) return;
     const osc = audioCtx.createOscillator();
@@ -233,7 +129,6 @@ function iniciarMusicaChiptune(nombreMelodia = 'estudio') {
     osc.stop(tiempo + nota.dur);
     tiempo += nota.dur;
   }
-
   function loop() {
     tiempo = audioCtx.currentTime;
     notas.forEach(nota => tocarNota(nota));
@@ -268,7 +163,6 @@ function tocarJingleCompletado() {
   });
 }
 
-// --- CARGA DE DATOS ---
 async function carregarDades() {
   try {
     const res = await fetch('./data/biblioteca_emojis.json');
@@ -311,24 +205,16 @@ async function carregarDades() {
   }
 }
 
-// INIT
 document.addEventListener('DOMContentLoaded', async () => {
   aplicarIdioma();
-
   document.body.addEventListener('click', () => {
     if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
   }, { once: true });
-
   await carregarDades();
   await carregarItems();
   actualitzarUI();
   actualitzarTotem();
   carregarMapa();
-
-  document.addEventListener('click', (e) => {
-    if(e.target.id === 'btnMapa') tornarMapa();
-    if(e.target.id === 'btnRepetir') repetirCapitolActual(); // CAMBIO: directo sin modal
-  });
 });
 
 function aplicarIdioma() {
@@ -368,7 +254,6 @@ function carregarMapa() {
   const mapaDiv = document.getElementById('mapa');
   if (!mapaDiv) return;
   mapaDiv.innerHTML = '';
-
   CAPITOLS.forEach(capitol => {
     const completat = estat.capitolsCompletats.includes(capitol.id);
     const desbloquejat = capitol.desbloquejat || estat.capitolsCompletats.includes(capitol.requereix);
@@ -385,16 +270,10 @@ function carregarMapa() {
     card.innerHTML = html;
     mapaDiv.appendChild(card);
   });
-
   estat.rutesDesbloquejades.forEach(rutaId => {
     const card = document.createElement('div');
     card.className = 'capitol-card ruta-secreta';
-    card.innerHTML = `
-      <div class="capitol-icona">🗝️</div>
-      <h3>Ruta Secreta</h3>
-      <p>Contingut ocult desbloquejat!</p>
-      <button class="btn" onclick="carregarCapitol('${rutaId}.json')">Entrar</button>
-    `;
+    card.innerHTML = `<div class="capitol-icona">🗝️</div><h3>Ruta Secreta</h3><p>Contingut ocult desbloquejat!</p><button class="btn" onclick="carregarCapitol('${rutaId}.json')">Entrar</button>`;
     mapaDiv.appendChild(card);
   });
 }
@@ -418,7 +297,6 @@ async function carregarCapitol(nombreArchivo) {
     const res = await fetch(`./data/${nombreArchivo}`);
     if (!res.ok) throw new Error('Archivo no encontrado: ' + nombreArchivo);
     const data = await res.json();
-
     let capitolInfo = CAPITOLS.find(c => c.archivo === nombreArchivo);
     if (!capitolInfo) {
       const resCap = await fetch('./data/capitols.json');
@@ -426,11 +304,9 @@ async function carregarCapitol(nombreArchivo) {
       capitolInfo = capitolsData.find(c => c.arxiu === `./data/${nombreArchivo}`);
     }
     if (!capitolInfo) throw new Error('Capítol no trobat');
-
     estat.capitolActual = {id: capitolInfo.id, passos: data, recompensa_100: capitolInfo.recompensa_100 || null};
     estat.pasActual = 0;
     estat.falladesCapitol = 0;
-
     document.getElementById('missio-card').innerHTML = `
       <h3 id="missio-titol">Selecciona una missió al mapa</h3>
       <div id="npc-box" style="display:none;">
@@ -441,9 +317,6 @@ async function carregarCapitol(nombreArchivo) {
             <p id="npc-dialog" style="margin:0; line-height:1.4;"></p>
           </div>
         </div>
-        <div id="npc-progress" style="height:4px; background:#333; border-radius:2px; margin-top:12px; display:none; overflow:hidden;">
-          <div id="npc-progress-fill" style="height:100%; width:0%; background:var(--accent);"></div>
-        </div>
         <div style="display:flex; align-items:center; gap:10px; margin-top:15px; padding-top:12px; border-top:1px solid #333; opacity:0.8;">
           <span id="jugador-emoji" style="font-size:32px;"></span>
           <span id="jugador-nom" style="font-size:14px; color:#aaa;"></span>
@@ -452,12 +325,7 @@ async function carregarCapitol(nombreArchivo) {
       <div id="missio-escenari"></div>
       <div id="missio-opcions"></div>
       <div id="missio-feedback"></div>
-      <div id="missio-final-botons" style="display:none; gap:10px; margin-top:15px;">
-        <button id="btnMapa" class="btn btn-sec">Volver al mapa</button>
-        <button id="btnRepetir" class="btn">Repetir</button>
-      </div>
     `;
-
     canviarTab('missio', null);
     setTimeout(() => carregarPas(), 0);
   } catch(e) {
@@ -469,7 +337,6 @@ function carregarPas() {
   if (!estat.capitolActual) return;
   const pas = estat.capitolActual.passos[estat.pasActual];
   if (!pas) { completarCapitol(); return; }
-
   const esperarElemento = (id, callback, intentos = 20) => {
     const el = document.getElementById(id);
     if (el) {
@@ -478,20 +345,17 @@ function carregarPas() {
       setTimeout(() => esperarElemento(id, callback, intentos - 1), 50);
     }
   };
-
   esperarElemento('npc-box', (npcBox) => {
     const npcEmoji = pas.npc_emoji || '👤';
     const npcNom = pas.npc_nom || 'NPC';
     const jugadorEmoji = estat.personatge?.emoji || '🧑';
     const jugadorNom = estat.personatge?.nom || 'Tu';
-
     npcBox.style.display = 'block';
     document.getElementById('npc-emoji').textContent = npcEmoji;
     document.getElementById('npc-nom').textContent = npcNom;
     document.getElementById('npc-dialog').textContent = pas.dialog || '';
     document.getElementById('jugador-emoji').textContent = jugadorEmoji;
     document.getElementById('jugador-nom').textContent = jugadorNom;
-
     document.getElementById('missio-titol').textContent = pas.pregunta;
     const opcionsDiv = document.getElementById('missio-opcions');
     opcionsDiv.innerHTML = '';
@@ -512,17 +376,12 @@ function seleccionarOpcio(idx) {
   const pas = estat.capitolActual.passos[estat.pasActual];
   const opcio = pas.opcions[idx];
   const feedback = opcio.feedback;
-
   estat.bloquejat = true;
   document.querySelectorAll('.opcio').forEach(o => o.classList.add('disabled'));
-
-  // CAMBIO: 6 segundos y barra sincronizada
-  const duracio = 6000;
+  const duracio = 8000; // 8 segundos
   mostrarFeedback(feedback, duracio);
-
   if(opcio.correcte && AUDIO_ENCERT) AUDIO_ENCERT.play();
   if(!opcio.correcte && AUDIO_FALLADA) AUDIO_FALLADA.play();
-
   if (opcio.correcte) {
     estat.monedes += opcio.guany?.monedes || 0;
     estat.stats.seny += opcio.guany?.seny || 0;
@@ -534,11 +393,9 @@ function seleccionarOpcio(idx) {
     estat.falladesCapitol = (estat.falladesCapitol || 0) + 1;
     estat.fallades.push({capitol: estat.capitolActual.id, pas: estat.pasActual});
   }
-
   actualitzarTotem();
   guardarEstat();
   actualitzarUI();
-
   setTimeout(() => {
     estat.bloquejat = false;
     estat.pasActual++;
@@ -548,23 +405,10 @@ function seleccionarOpcio(idx) {
 
 function mostrarFeedback(text, duracio) {
   const feedbackDiv = document.getElementById('missio-feedback');
-  feedbackDiv.innerHTML = `<div id="feedback-box"><p>${text}</p><div id="feedback-barra" style="animation-duration: ${duracio}ms;"></div></div>`;
-
-  // Activar barra de progreso del NPC
-  const progressBar = document.getElementById('npc-progress');
-  const progressFill = document.getElementById('npc-progress-fill');
-  if (progressBar && progressFill) {
-    progressBar.style.display = 'block';
-    progressFill.style.transition = `width ${duracio}ms linear`;
-    progressFill.style.width = '0%';
-    void progressFill.offsetWidth;
-    progressFill.style.width = '100%';
-  }
-
-  setTimeout(() => {
-    if (progressBar) progressBar.style.display = 'none';
-    if (progressFill) progressFill.style.width = '0%';
-  }, duracio);
+  feedbackDiv.innerHTML = `<div id="feedback-box">
+    <p>${text}</p>
+    <div id="feedback-barra" style="height:4px; background:var(--accent); width:0%; animation: fillBar ${duracio}ms linear forwards; margin-top:10px; border-radius:2px;"></div>
+  </div>`;
 }
 
 function completarCapitol() {
@@ -574,13 +418,11 @@ function completarCapitol() {
   }
   const seguent = CAPITOLS.find(c => c.requereix === estat.capitolActual.id);
   if (seguent) seguent.desbloquejat = true;
-
   document.getElementById('npc-box').style.display = 'none';
   const es100 = (estat.falladesCapitol || 0) === 0;
   const fallades = estat.falladesCapitol || 0;
   let htmlPremi = '';
   const vecesNecesarias = 3;
-
   if(es100 && estat.capitolActual.recompensa_100) {
     estat.capitols100Counts[estat.capitolActual.id] = (estat.capitols100Counts[estat.capitolActual.id] || 0) + 1;
     const veces100 = estat.capitols100Counts[estat.capitolActual.id];
@@ -598,19 +440,17 @@ function completarCapitol() {
   } else {
     htmlPremi = `<div style="text-align:center; margin-top:20px;"><p style="color:#ff6b6b; font-size:18px; font-weight:bold;">Has fallat ${fallades} pregunta${fallades > 1? 's' : ''}</p><p style="color:#888; margin-top:10px;">Fes 0 fallos per guanyar l'item especial.</p></div>`;
   }
-
   document.getElementById('missio-card').innerHTML = `
     <div class="completion-screen">
       <h2>✅ ${LANG.mision_completada}</h2>
       ${htmlPremi}
-      <div class="completion-buttons" id="missio-final-botons">
-        <button id="btnMapa" class="btn btn-sec">${LANG.volver_mapa}</button>
-        <button id="btnRepetir" class="btn">${LANG.repetir}</button>
+      <div class="completion-buttons">
+        <button class="btn btn-sec" onclick="tornarMapa()">${LANG.volver_mapa}</button>
+        <button class="btn" onclick="repetirCapitolActual()">${LANG.repetir}</button>
       </div>
     </div>
   `;
   guardarEstat();
-  carregarMapa();
 }
 
 function actualitzarTotem() {
@@ -636,7 +476,7 @@ function tornarMapa() {
   estat.pasActual = 0;
   estat.bloquejat = false;
   document.getElementById('npc-box').style.display = 'none';
-  document.getElementById('missio-card').innerHTML = `<h3 id="missio-titol">Selecciona una missió al mapa</h3><div id="missio-escenari"></div><div id="missio-opcions"></div><div id="missio-feedback"></div><div id="missio-final-botons" style="display:none; gap:10px; margin-top:15px;"><button id="btnMapa" class="btn btn-sec">Volver al mapa</button><button id="btnRepetir" class="btn">Repetir</button></div>`;
+  document.getElementById('missio-card').innerHTML = `<h3 id="missio-titol">Selecciona una missió al mapa</h3><div id="missio-escenari"></div><div id="missio-opcions"></div><div id="missio-feedback"></div>`;
   canviarTab('mapa', null);
 }
 
@@ -676,7 +516,6 @@ function mostrarGremi(tab, e) {
   const cont = document.getElementById('gremi-contenidor');
   const bibSubtabs = document.getElementById('biblioteca-subtabs');
   cont.innerHTML = '';
-
   if (tab === 'biblioteca') {
     bibSubtabs.style.display = 'flex';
     mostrarBibliotecaTab('diccionari');
@@ -684,7 +523,6 @@ function mostrarGremi(tab, e) {
   } else {
     bibSubtabs.style.display = 'none';
   }
-
   if(tab === 'personatges') {
     if(!estat.personatge) {
       let html = `<h3 style="text-align:center; margin-bottom:20px;">${LANG.tria_personatge}</h3>`;
@@ -701,19 +539,16 @@ function mostrarGremi(tab, e) {
       const titols = { seny: 'Estratèg', rauxa: 'Impulsiu', arrel: 'Arrelat', obert: 'Cosmopolita', neutral: 'Novell' };
       const totalStats = estat.stats.seny + estat.stats.rauxa + estat.stats.arrel + estat.stats.obert;
       const rang = totalStats < 20? 'Novell' : totalStats < 50? 'Viatjant' : totalStats < 100? 'Mestre' : 'Llegendari';
-
-      cont.innerHTML = `
-        <div class="gremi-item" style="grid-column:1/-1; text-align:center;">
-          <div style="font-size:64px;">${estat.personatge.emoji}</div>
-          <h3 style="margin:10px 0;">${estat.personatge.nom}</h3>
-          <p style="color:#888;">${estat.personatge.nom_cat}</p>
-          <hr style="border-color:#333; margin:15px 0;">
-          <p><b>Rang:</b> ${rang}</p>
-          <p><b>Títol:</b> ${titols[estat.totem]}</p>
-          <p><b>Capítols 100%:</b> ${estat.capitolsCompletats.length}/${CAPITOLS.length}</p>
-          <button class="btn btn-sec" style="margin-top:15px;" onclick="canviarPersonatge()">${LANG.canviar_personatge}</button>
-        </div>
-      `;
+      cont.innerHTML = `<div class="gremi-item" style="grid-column:1/-1; text-align:center;">
+        <div style="font-size:64px;">${estat.personatge.emoji}</div>
+        <h3 style="margin:10px 0;">${estat.personatge.nom}</h3>
+        <p style="color:#888;">${estat.personatge.nom_cat}</p>
+        <hr style="border-color:#333; margin:15px 0;">
+        <p><b>Rang:</b> ${rang}</p>
+        <p><b>Títol:</b> ${titols[estat.totem]}</p>
+        <p><b>Capítols 100%:</b> ${estat.capitolsCompletats.length}/${CAPITOLS.length}</p>
+        <button class="btn btn-sec" style="margin-top:15px;" onclick="canviarPersonatge()">${LANG.canviar_personatge}</button>
+      </div>`;
     }
   }
 
@@ -770,18 +605,15 @@ function mostrarGremi(tab, e) {
 function mostrarBibliotecaTab(tab, e) {
   document.querySelectorAll('#biblioteca-subtabs.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
   if(e) e.target.classList.add('active');
-
   const cont = document.getElementById('gremi-contenidor');
 
   if(tab === 'diccionari') {
     const desbloquejats = new Set(estat.emojisDesbloquejats || []);
     let html = `<h3 style="text-align:center; margin-bottom:10px;">${LANG.biblioteca}</h3>`;
     html += `<p style="text-align:center; color:#888; margin-bottom:20px; font-size:14px;">${LANG.biblioteca_desc}</p>`;
-
     for (const [cat, emojis] of Object.entries(CATEGORIES_EMOJI)) {
       html += `<h4 style="margin:15px 0 8px; color:#4CAF50; text-transform:capitalize;">${cat}</h4>`;
       html += `<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;">`;
-
       emojis.forEach(emoji => {
         const info = EMOJIS_JUGABLES.find(e => e.emoji === emoji);
         const nom = info? info.nom_cat : emoji;
@@ -789,14 +621,12 @@ function mostrarBibliotecaTab(tab, e) {
         const comprat = desbloquejats.has(emoji);
         const opacidad = comprat? '1' : '0.3';
         const filtro = comprat? '' : 'grayscale(1)';
-
-        html += `
-          <div style="text-align:center; padding:12px 8px; background:#1a1a1a; border-radius:10px; opacity:${opacidad}; filter:${filtro};">
-            <div style="font-size:42px; margin-bottom:6px;">${emoji}</div>
-            <div style="font-size:13px; font-weight:600; color:#fff;">${nom}</div>
-            <div style="font-size:10px; color:#aaa; margin-top:4px;">${paraules}</div>
-          </div>
-        `;
+        const pointer = comprat? 'pointer' : 'not-allowed';
+        html += `<div style="text-align:center; padding:12px 8px; background:#1a1a1a; border-radius:10px; opacity:${opacidad}; filter:${filtro}; pointer-events:${pointer};">
+          <div style="font-size:42px; margin-bottom:6px;">${emoji}</div>
+          <div style="font-size:13px; font-weight:600; color:#fff;">${nom}</div>
+          <div style="font-size:10px; color:#aaa; margin-top:4px;">${paraules}</div>
+        </div>`;
       });
       html += `</div>`;
     }
@@ -828,26 +658,20 @@ function novaFraseMinijoc() {
 
 function carregarFrasesMinijoc() {
   if (!FRASES_MINIJOC || FRASES_MINIJOC.length === 0) return;
-
   const emojisDisponibles = EMOJIS_JUGABLES;
-
   if (emojisDisponibles.length < 2) {
     document.getElementById('minijoc-frase').textContent = "Error: no hi ha emojis per jugar.";
     document.getElementById('minijoc-emojis').innerHTML = '';
     return;
   }
-
   const plantilla = FRASES_MINIJOC[Math.floor(Math.random() * FRASES_MINIJOC.length)];
   const { text, solucio } = generarFraseDinamica(plantilla, emojisDisponibles.map(e => e.emoji));
-
   estat.minijoc.fraseObjectiu = { text, solucio };
   estat.minijoc.emojisTriats = [];
-
   document.getElementById('minijoc-frase').textContent = text;
   document.getElementById('minijoc-triats').textContent = '';
   document.getElementById('minijoc-feedback').innerHTML = '';
   document.getElementById('minijoc-nivell').textContent = `Nivell ${NIVELL_MINIJOC.nivelActual} - ${solucio.length} emojis`;
-
   generarEmojisParaFraseCorta({solucio});
 }
 
@@ -857,19 +681,15 @@ function generarEmojisParaFraseCorta(frase) {
    .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
    .sort(() => 0.5 - Math.random())
    .slice(0, 10 - frase.solucio.length);
-
   const emojisAMostrar = [...frase.solucio,...emojisFalsos].sort(() => 0.5 - Math.random());
   estat.minijoc.emojisDisponibles = emojisAMostrar;
-
   let html = '';
   emojisAMostrar.forEach((emoji, i) => {
     const emojiData = EMOJIS_JUGABLES.find(e => quitarSkinTone(e.emoji) === quitarSkinTone(emoji));
-    html += `
-      <div class="emoji-item" onclick="triarEmojiMinijoc(${i})" style="cursor:pointer;">
-        <div class="emoji-large">${emoji}</div>
-        <div class="emoji-name">${emojiData?.nom_cat || ''}</div>
-      </div>
-    `;
+    html += `<div class="emoji-item" onclick="triarEmojiMinijoc(${i})" style="cursor:pointer;">
+      <div class="emoji-large">${emoji}</div>
+      <div class="emoji-name">${emojiData?.nom_cat || ''}</div>
+    </div>`;
   });
   document.getElementById('minijoc-emojis').innerHTML = html;
 }
@@ -877,21 +697,17 @@ function generarEmojisParaFraseCorta(frase) {
 function generarFraseDinamica(plantilla, emojisJugador) {
   let text = plantilla.text;
   let solucio = [];
-
   for (const cat of plantilla.categories) {
     const emojisDisponibles = CATEGORIES_EMOJI[cat].filter(eBase =>
       emojisJugador.some(eJug => quitarSkinTone(eJug) === quitarSkinTone(eBase))
     );
-
     if (!emojisDisponibles || emojisDisponibles.length === 0) {
       return generarFraseDinamica(FRASES_MINIJOC[Math.floor(Math.random() * FRASES_MINIJOC.length)], emojisJugador);
     }
-
     const emojiElegit = emojisDisponibles[Math.floor(Math.random() * emojisDisponibles.length)];
     text = text.replace(`{${cat}}`, obtenirNomEmoji(emojiElegit));
     solucio.push(emojiElegit);
   }
-
   return { text, solucio };
 }
 
@@ -904,7 +720,6 @@ function triarEmojiMinijoc(index) {
   vibrar();
   const emoji = estat.minijoc.emojisDisponibles[index];
   const maxEmojis = estat.minijoc.fraseObjectiu.solucio.length;
-
   if (estat.minijoc.emojisTriats.length < maxEmojis) {
     estat.minijoc.emojisTriats.push(emoji);
     actualitzarTriatsMinijoc();
@@ -923,7 +738,6 @@ function comprovarMinijoc() {
   const triatsCorrecte = estat.minijoc.emojisTriats.map(quitarSkinTone).join('');
   const esCorrecte = solucioCorrecta === triatsCorrecte;
   const feedback = document.getElementById('minijoc-feedback');
-
   if (esCorrecte) {
     feedback.innerHTML = `<p style="color:#4CAF50; font-weight:bold;">${LANG.correcte}</p>`;
     estat.monedes += 50;
@@ -933,7 +747,6 @@ function comprovarMinijoc() {
   } else {
     feedback.innerHTML = `<p style="color:#f44336; font-weight:bold;">${LANG.incorrecte} ${frase.solucio.join(' ')}</p>`;
   }
-
   setTimeout(() => novaFraseMinijoc(), 2000);
 }
 
@@ -963,7 +776,6 @@ async function carregarBotiga() {
     const data = await res.json();
     estat.packs_botiga = data;
     cont.innerHTML = '';
-
     data.forEach(pack => {
       const comprat = estat.compres.includes(pack.id);
       const card = document.createElement('div');
@@ -974,7 +786,7 @@ async function carregarBotiga() {
         <p style="color:var(--text-sec); margin:8px 0;">${pack.descripcio}</p>
         <p style="font-size:24px;">${pack.emojis.map(e => e.emoji).join(' ')}</p>
         <button class="btn ${comprat? 'btn-sec' : ''}"
-                onclick="comprarPack('${pack.id}', ${pack.preu})"
+                onclick="comprarPack('${pack.id}', ${pack.preu}, event)"
                 ${comprat? 'disabled' : ''}>
           ${comprat? LANG.comprat : `🪙 ${pack.preu}`}
         </button>
@@ -987,16 +799,15 @@ async function carregarBotiga() {
   }
 }
 
-async function comprarPack(id, preu) {
+async function comprarPack(id, preu, event) {
+  if (event) event.stopPropagation();
   if (estat.monedes < preu) {
     mostrarModal(LANG.no_prou_monedes);
     return;
   }
-
   vibrar();
   estat.monedes -= preu;
   estat.compres.push(id);
-
   const pack = estat.packs_botiga.find(p => p.id === id);
   if (pack) {
     pack.emojis.forEach(e => {
@@ -1004,13 +815,9 @@ async function comprarPack(id, preu) {
         estat.emojisDesbloquejats.push(e.emoji);
       }
     });
-
     await carregarDades();
-    carregarFrasesMinijoc();
   }
-
   NIVELL_MINIJOC.nivelActual = Math.min(NIVELL_MINIJOC.nivelActual + 1, NIVELL_MINIJOC.maxEmojis);
-
   guardarEstat();
   actualitzarUI();
   renderitzarBotiga();
@@ -1020,7 +827,6 @@ async function comprarPack(id, preu) {
 function renderitzarBotiga() {
   const cont = document.getElementById('botiga-contenidor');
   if (!cont ||!estat.packs_botiga) return;
-
   cont.innerHTML = '';
   estat.packs_botiga.forEach(pack => {
     const comprat = estat.compres.includes(pack.id);
@@ -1032,7 +838,7 @@ function renderitzarBotiga() {
       <p style="color:var(--text-sec); margin:8px 0;">${pack.descripcio}</p>
       <p style="font-size:24px;">${pack.emojis.map(e => e.emoji).join(' ')}</p>
       <button class="btn ${comprat? 'btn-sec' : ''}"
-              onclick="comprarPack('${pack.id}', ${pack.preu})"
+              onclick="comprarPack('${pack.id}', ${pack.preu}, event)"
               ${comprat? 'disabled' : ''}>
         ${comprat? 'Desbloquejat' : `🪙 ${pack.preu}`}
       </button>
