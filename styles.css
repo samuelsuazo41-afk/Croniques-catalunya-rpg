@@ -41,10 +41,14 @@ header h1 {
   letter-spacing: -0.5px;
 }
 
+/* BARRA STATS ARREGLADA */
 .stats-bar {
   display: flex;
-  justify-content: space-around;
-  padding: 12px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
   background: var(--card);
   border-bottom: 1px solid #333;
   font-size: 14px;
@@ -54,6 +58,18 @@ header h1 {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.stats-valors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  font-size: 13px;
+  color: var(--text-sec);
+}
+
+.stats-valors span {
+  white-space: nowrap;
 }
 
 .container {
@@ -223,7 +239,7 @@ header h1 {
   color: white;
 }
 
-/* Modal custom del juego */
+/* Modal custom del juego - punto 2 */
 .modal {
   position: fixed;
   top: 0;
@@ -276,7 +292,7 @@ header h1 {
   color: white;
 }
 
-/* Rutas secretas */
+/* Rutas secretas - punto 7 */
 .ruta-secreta {
   opacity: 0.6;
   border-style: dashed;
@@ -294,94 +310,3 @@ header h1 {
   margin: 10px 0;
   border-radius: 8px;
 }
-
-/* Feedback con barra de tiempo */
-#feedback-box {
-  background: #222;
-  border-radius: 12px;
-  padding: 16px;
-  margin-top: 16px;
-  border-left: 4px solid var(--accent);
-}
-
-#feedback-barra {
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  border-radius: 2px;
-  margin-top: 12px;
-  animation: countdown linear forwards;
-}
-
-@keyframes countdown {
-  from { width: 100%; }
-  to { width: 0%; }
-}
-
-/* Pantalla de completado */
-.completion-screen {
-  text-align: center;
-  padding: 20px 0;
-}
-
-.completion-screen h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: var(--success);
-}
-
-.item-desbloquejat {
-  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-  border: 2px solid var(--success);
-  border-radius: 16px;
-  padding: 24px;
-  margin: 20px 0;
-  text-align: center;
-}
-
-.item-desbloquejat h3 {
-  font-size: 22px;
-  margin: 12px 0;
-  color: var(--success);
-}
-
-.completion-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.completion-buttons button {
-  flex: 1;
-}
-
-/* Grid para minijuego de emojis */
-.emoji-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 15px 0;
-}
-
-.emoji-item {
-  background: #1a1a1a;
-  border: 2px solid #333;
-  border-radius: 12px;
-  padding: 12px;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.emoji-item:hover {
-  border-color: var(--accent);
-  transform: scale(1.05);
-}
-
-.emoji-large {
-  font-size: 40px;
-  margin-bottom: 6px;
-}
-
-.emoji-name {
-  font-size: 12px;
-  color: var(--text-sec);
-  }
