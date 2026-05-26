@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title> Croniques de Catalunya RPG</title>
+<title>Cròniques de Catalunya RPG</title>
 <meta name="description" content="RPG per aprendre català jugant">
 <meta name="theme-color" content="#FF6B35">
 <link rel="manifest" href="./manifest.json">
@@ -12,9 +12,8 @@
 <body>
 
 <header>
-  <h1 id="app-titol">Croniques Catalunya RPG</h1>
+  <h1 id="app-titol">Cròniques de Catalunya</h1>
   <div id="totem-display" style="font-size: 12px; margin-top: 4px;"></div>
-  <!-- BOTÓN AJUSTES ELIMINADO -->
 </header>
 
 <div class="stats-bar">
@@ -38,7 +37,6 @@
     <div id="missio-card">
       <h3 id="missio-titol">Selecciona una missió al mapa</h3>
       
-      <!-- RUTES SECRETES - CAMBIO PUNTO 7 -->
       <div id="rutes-secretes" style="display:none;">
         <h3 style="margin:20px 0 12px 0;">🔒 Rutes Secretes</h3>
         
@@ -109,7 +107,6 @@
   </div>
 </nav>
 
-<!-- MODAL CUSTOM PUNTO 2 - MANTENIDO -->
 <div id="modal" class="modal hidden">
   <div class="modal-content">
     <p id="modalText"></p>
@@ -120,15 +117,22 @@
   </div>
 </div>
 
-<!-- MODAL AJUSTOS ELIMINADO COMPLETO -->
-
 <script>
 function vibrar() {
   if (navigator.vibrate) navigator.vibrate(20);
+}
+
+// Registrar Service Worker para que funcione offline
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registrat:', reg.scope))
+      .catch(err => console.log('SW error:', err));
+  });
 }
 </script>
 
 <script src="./main.js"></script>
 
 </body>
-</html>
+    </html>
