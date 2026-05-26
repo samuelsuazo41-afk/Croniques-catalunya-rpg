@@ -1,5 +1,4 @@
-// Cambia esto cada vez que subas cambios. Formato: YYYYMMDD-HHMM
-const CACHE_VERSION = '20251004-1430';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = `croniques-catalunya-rpg-${CACHE_VERSION}`;
 
 const urlsToCache = [
