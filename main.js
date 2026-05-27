@@ -1,3 +1,21 @@
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.createElement('button');
+  btn.textContent = '📱 Instal·la l\'App';
+  btn.className = 'btn btn-sec';
+  btn.style.position = 'fixed';
+  btn.style.bottom = '80px';
+  btn.style.right = '20px';
+  btn.style.zIndex = '999';
+  btn.onclick = () => {
+    deferredPrompt.prompt();
+    btn.remove();
+  };
+  document.body.appendChild(btn);
+});
+
 // main.js - Cròniques de Catalunya RPG
 let musicaActivada = true;
 let BIBLIOTECA_EMOJIS_BASE = [];
