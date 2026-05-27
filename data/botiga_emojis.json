@@ -3,7 +3,7 @@
     "id": "pack_persones_base",
     "nom": "Persones Base",
     "descripcio": "7 persones bàsiques sense to de pell",
-    "preu": 200,
+    "preu": 350,
     "emojis": [
       {"emoji": "👨", "nom_cat": "home", "categoria": "persona", "para_frases": ["home", "persona"]},
       {"emoji": "👩", "nom_cat": "dona", "categoria": "persona", "para_frases": ["dona", "persona"]},
