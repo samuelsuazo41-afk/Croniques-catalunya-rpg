@@ -12,10 +12,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- Iconos nous vermells/dorats -->
-<link rel="apple-touch-icon" href="./icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
+<!-- Iconos nous vermells/dorats - rutas corregidas a raiz -->
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
 
 <link rel="stylesheet" href="./styles.css">
 </head>
@@ -147,8 +147,8 @@ function vibrar() {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
-    .then(reg => console.log('SW registrat:', reg.scope))
-    .catch(err => console.log('SW error:', err));
+   .then(reg => console.log('SW registrat:', reg.scope))
+   .catch(err => console.log('SW error:', err));
   });
 }
 </script>
