@@ -48,7 +48,7 @@ const LANGS = {
 let idioma = localStorage.getItem('cat_idioma') || 'ca';
 let LANG = LANGS[idioma];
 
-// PERSONAJES ACTUALIZADOS - añadidos Joven y Jova
+// PERSONAJES ACTUALIZADOS - Joven y Jova añadidos
 const PERSONATGES_JUGADOR = [
   {id: 'joven', emoji: '👦', nom: 'Joven'},
   {id: 'jova', emoji: '👧', nom: 'Jova'},
@@ -243,7 +243,7 @@ function canviarTab(tab, e) {
   if(tab === 'mapa') {pararMusica(); carregarMapa();}
   if(tab === 'missio') {pararMusica(); carregarMissioTab();}
   if(tab === 'gremi') {iniciarMusicaChiptune('fallero'); mostrarGremi('personatges', e);}
-  if(tab === 'botiga') {iniciarMusicaChiptune('fallero'); carregarBotiga();} // BEAT FALLERO TAMBIEN EN BOTIGA
+  if(tab === 'botiga') {iniciarMusicaChiptune('fallero'); carregarBotiga();}
 }
 
 async function carregarItems() {
@@ -580,7 +580,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
- .then(([barcelona, girona, valencia]) => {
+.then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -588,7 +588,6 @@ function mostrarGremi(tab, e) {
         return;
       }
       totes.forEach(l => {
-        // FIX: acepta condicio como id o id.json
         const desbloquejada = estat.capitolsCompletats.some(id =>
           id === l.condicio || id === l.condicio.replace('.json','')
         );
@@ -608,7 +607,7 @@ function mostrarGremi(tab, e) {
         }
       });
     })
- .catch(err => console.error('Error carregant llegendes:', err));
+.catch(err => console.error('Error carregant llegendes:', err));
   }
 }
 
@@ -621,7 +620,6 @@ function mostrarBibliotecaTab(tab, e) {
     const desbloquejats = new Set(estat.emojisDesbloquejats || []);
     let html = `<h3 style="text-align:center; margin-bottom:10px;">${LANG.biblioteca}</h3>`;
     html += `<p style="text-align:center; color:#888; margin-bottom:20px; font-size:14px;">${LANG.biblioteca_desc}</p>`;
-    // MENSAJE CTA PARA COMPRAR PACKS
     html += `<div style="background:linear-gradient(135deg, var(--accent), var(--accent2)); padding:12px; border-radius:12px; margin-bottom:20px; text-align:center; font-weight:700; font-size:14px;">${LANG.biblioteca_cta}</div>`;
     for (const [cat, emojis] of Object.entries(CATEGORIES_EMOJI)) {
       html += `<h4 style="margin:15px 0 8px; color:#4CAF50; text-transform:capitalize;">${cat}</h4>`;
@@ -631,7 +629,7 @@ function mostrarBibliotecaTab(tab, e) {
         const nom = info? info.nom_cat : emoji;
         const paraules = info? info.para_frases.join(', ') : '';
         const comprat = desbloquejats.has(emoji);
-        const opacidad = comprat? '1' : '0.12'; // casi oculto
+        const opacidad = comprat? '1' : '0.12';
         const filtro = comprat? '' : 'grayscale(1) brightness(0.4)';
         const pointer = comprat? 'pointer' : 'not-allowed';
         const colorTexto = comprat? '#fff' : '#444';
@@ -692,9 +690,9 @@ function carregarFrasesMinijoc() {
 function generarEmojisParaFraseCorta(frase) {
   const emojisJugador = EMOJIS_JUGABLES.map(e => e.emoji);
   const emojisFalsos = emojisJugador
- .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
- .sort(() => 0.5 - Math.random())
- .slice(0, 10 - frase.solucio.length);
+.filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
+.sort(() => 0.5 - Math.random())
+.slice(0, 10 - frase.solucio.length);
   const emojisAMostrar = [...frase.solucio,...emojisFalsos].sort(() => 0.5 - Math.random());
   estat.minijoc.emojisDisponibles = emojisAMostrar;
   let html = '';
