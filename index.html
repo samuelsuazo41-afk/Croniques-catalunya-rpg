@@ -37,7 +37,7 @@
 </div>
 
 <div class="container">
-  
+
   <div id="tab-mapa" class="tab-content active">
     <h2 id="text-mon" style="margin-bottom: 20px;">🗺️ Mapa de Catalunya</h2>
     <div id="mapa"></div>
@@ -46,29 +46,29 @@
   <div id="tab-missio" class="tab-content">
     <div id="missio-card">
       <h3 id="missio-titol">Selecciona una missió al mapa</h3>
-      
+
       <div id="rutes-secretes" style="display:none;">
         <h3 style="margin:20px 0 12px 0;">🔒 Rutes Secretes</h3>
-        
+
         <div class="capitol-card ruta-secreta" id="ruta-valencia">
           <div class="capitol-icona">🔒</div>
           <h4>Ruta Secreta de València</h4>
           <p class="ruta-secreta-txt">Falten 3 ítems per desbloquejar</p>
         </div>
-        
+
         <div class="capitol-card ruta-secreta" id="ruta-girona">
           <div class="capitol-icona">🔒</div>
           <h4>Ruta Secreta de Girona</h4>
           <p class="ruta-secreta-txt">Falten 3 ítems per desbloquejar</p>
         </div>
-        
+
         <div class="capitol-card ruta-secreta" id="ruta-tarragona">
           <div class="capitol-icona">🔒</div>
           <h4>Ruta Secreta de Tarragona</h4>
           <p class="ruta-secreta-txt">Falten 3 ítems per desbloquejar</p>
         </div>
       </div>
-      
+
       <div id="missio-escenari"></div>
       <div id="missio-opcions"></div>
       <div id="missio-feedback"></div>
@@ -82,12 +82,12 @@
       <button class="sub-tab-btn" onclick="mostrarGremi('objectes', event)">Objectes</button>
       <button class="sub-tab-btn" onclick="mostrarGremi('llegendes', event)">Llegendes</button>
     </div>
-    
+
     <div class="sub-tabs" id="biblioteca-subtabs" style="display:none;">
       <button class="sub-tab-btn active" onclick="mostrarBibliotecaTab('diccionari', event)">📖 Diccionari</button>
       <button class="sub-tab-btn" onclick="mostrarBibliotecaTab('minijocs', event)">🎮 Mini-jocs</button>
     </div>
-    
+
     <div id="gremi-contenidor"></div>
   </div>
 
@@ -147,13 +147,71 @@ function vibrar() {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('SW registrat:', reg.scope))
-      .catch(err => console.log('SW error:', err));
+     .then(reg => console.log('SW registrat:', reg.scope))
+     .catch(err => console.log('SW error:', err));
   });
 }
 </script>
 
 <script src="./main.js"></script>
+
+<script>
+// Tutorial de benvinguda
+const TUTORIAL_SLIDES = [
+  {
+    titol: "Benvingut a Cròniques de Catalunya",
+    text: "Aprèn català viatjant per Barcelona, Girona i València. Completa missions i desbloqueja rutes secretes!",
+    emoji: "🗺️"
+  },
+  {
+    titol: "Com es juga",
+    text: "Tria la resposta correcta a cada diàleg. Si fas 0 fallos en un capítol, guanyes objectes especials.",
+    emoji: "🎯"
+  },
+  {
+    titol: "El teu tòtem",
+    text: "Segons les teves respostes desenvoluparàs Seny, Rauxa, Arrel o Obert. Això canvia el teu avatar.",
+    emoji: "🦉"
+  }
+];
+
+let slideActual = 0;
+
+function iniciarTutorial() {
+  if (localStorage.getItem('cat_tutorial_vist')) return;
+  mostrarSlide(0);
+  document.getElementById('tutorialModal').classList.remove('hidden');
+}
+
+function mostrarSlide(n) {
+  slideActual = n;
+  const slide = TUTORIAL_SLIDES[n];
+  document.getElementById('tutorialSlide').innerHTML = `
+    <div style="font-size:64px; margin-bottom:15px;">${slide.emoji}</div>
+    <h3 style="margin-bottom:12px;">${slide.titol}</h3>
+    <p style="color:#ccc; line-height:1.6;">${slide.text}</p>
+  `;
+  document.getElementById('btnNextTutorial').textContent = n === TUTORIAL_SLIDES.length - 1? 'Començar' : 'Següent';
+}
+
+function seguentTutorial() {
+  if (slideActual < TUTORIAL_SLIDES.length - 1) {
+    mostrarSlide(slideActual + 1);
+  } else {
+    tancarTutorial();
+  }
+}
+
+function tancarTutorial() {
+  document.getElementById('tutorialModal').classList.add('hidden');
+  localStorage.setItem('cat_tutorial_vist', 'true');
+}
+
+// Llançar tutorial quan el main.js ha carregat
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(iniciarTutorial, 500);
+});
+</script>
 
 </body>
 </html>
