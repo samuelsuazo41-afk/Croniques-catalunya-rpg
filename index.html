@@ -6,7 +6,13 @@
 <title>Cròniques de Catalunya RPG</title>
 <meta name="description" content="RPG per aprendre català jugant">
 <meta name="theme-color" content="#FF6B35">
+
+<!-- PWA + Instal·lable -->
 <link rel="manifest" href="./manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -113,6 +119,17 @@
     <div class="modal-botons">
       <button onclick="tancarModal()">Cancel·lar</button>
       <button onclick="confirmarAccio()">Acceptar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tutorial Benvinguda - surt només la primera vegada -->
+<div id="tutorialModal" class="modal hidden">
+  <div class="modal-content" style="max-width: 420px;">
+    <div id="tutorialSlide"></div>
+    <div style="display:flex; justify-content:space-between; margin-top:20px;">
+      <button class="btn btn-sec" onclick="tancarTutorial()">Saltar</button>
+      <button class="btn" id="btnNextTutorial" onclick="seguentTutorial()">Següent</button>
     </div>
   </div>
 </div>
