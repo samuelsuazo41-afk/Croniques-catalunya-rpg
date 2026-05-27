@@ -869,8 +869,10 @@ function renderitzarBotiga() {
     cont.appendChild(card);
   });
 }
+
 window.repetirCapitolActual = repetirCapitolActual;
 window.tornarMapa = tornarMapa;
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
 }
