@@ -26,12 +26,7 @@ let estat = {
   objectes: JSON.parse(localStorage.getItem('cat_objectes')) || [],
   rutesDesbloquejades: JSON.parse(localStorage.getItem('cat_rutes')) || [],
   capitols100Counts: JSON.parse(localStorage.getItem('cat_capitols100')) || {},
-  stats: {
-    seny: parseInt(localStorage.getItem('cat_seny')) || 0,
-    rauxa: parseInt(localStorage.getItem('cat_rauxa')) || 0,
-    arrel: parseInt(localStorage.getItem('cat_arrel')) || 0,
-    obert: parseInt(localStorage.getItem('cat_obert')) || 0
-  },
+  stats: { seny: parseInt(localStorage.getItem('cat_seny')) || 0, rauxa: parseInt(localStorage.getItem('cat_rauxa')) || 0, arrel: parseInt(localStorage.getItem('cat_arrel')) || 0, obert: parseInt(localStorage.getItem('cat_obert')) || 0 },
   totem: localStorage.getItem('cat_totem') || 'neutral',
   personatge: JSON.parse(localStorage.getItem('cat_personatge')) || null,
   capitolActual: null,
@@ -76,10 +71,22 @@ let audioCtx = false;
 let musicaLoop = false;
 let melodiaActual = false;
 
+// BEAT FALLERO NUEVO - 16 tiempos, más festivo
 const MELODIAS = {
   gremi: [{freq: 196, dur: 1.5}, {freq: 220, dur: 1.5}, {freq: 196, dur: 3.0}],
   estudio: [{freq: 174, dur: 2.0}, {freq: 196, dur: 2.0}, {freq: 220, dur: 4.0}],
-  calma: [{freq: 147, dur: 3.0}, {freq: 165, dur: 3.0}]
+  calma: [{freq: 147, dur: 3.0}, {freq: 165, dur: 3.0}],
+  fallero: [
+    // Intro bombos falleros
+    {freq: 130, dur: 0.25}, {freq: 0, dur: 0.25}, {freq: 146, dur: 0.25}, {freq: 0, dur: 0.25},
+    {freq: 130, dur: 0.25}, {freq: 0, dur: 0.25}, {freq: 146, dur: 0.25}, {freq: 196, dur: 0.25},
+    // Melodía fallera clásica
+    {freq: 196, dur: 0.2}, {freq: 220, dur: 0.2}, {freq: 246, dur: 0.2}, {freq: 261, dur: 0.2},
+    {freq: 293, dur: 0.4}, {freq: 261, dur: 0.2}, {freq: 246, dur: 0.2}, {freq: 220, dur: 0.2},
+    {freq: 196, dur: 0.4}, {freq: 174, dur: 0.2}, {freq: 196, dur: 0.2}, {freq: 220, dur: 0.2},
+    // Cierre explosivo
+    {freq: 246, dur: 0.3}, {freq: 293, dur: 0.3}, {freq: 329, dur: 0.6}, {freq: 0, dur: 0.3}
+  ]
 };
 
 let accioPendents = null;
@@ -122,7 +129,7 @@ function iniciarMusicaChiptune(nombreMelodia = 'estudio') {
     const gain = audioCtx.createGain();
     osc.type = 'square';
     osc.frequency.value = nota.freq;
-    gain.gain.value = 0.001;
+    gain.gain.value = 0.001; // mismo volumen que antes
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     osc.start(tiempo);
@@ -235,7 +242,7 @@ function canviarTab(tab, e) {
   if(e && e.target) e.target.closest('.nav-item').classList.add('active');
   if(tab === 'mapa') {pararMusica(); carregarMapa();}
   if(tab === 'missio') {pararMusica(); carregarMissioTab();}
-  if(tab === 'gremi') {iniciarMusicaChiptune('gremi'); mostrarGremi('personatges', e);}
+  if(tab === 'gremi') {iniciarMusicaChiptune('fallero'); mostrarGremi('personatges', e);} // BEAT FALLERO
   if(tab === 'botiga') {iniciarMusicaChiptune('estudio'); carregarBotiga();}
 }
 
@@ -573,7 +580,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
-   .then(([barcelona, girona, valencia]) => {
+  .then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -581,7 +588,10 @@ function mostrarGremi(tab, e) {
         return;
       }
       totes.forEach(l => {
-        const desbloquejada = estat.capitolsCompletats.includes(l.condicio);
+        // FIX: acepta condicio como id o id.json
+        const desbloquejada = estat.capitolsCompletats.some(id =>
+          id === l.condicio || id === l.condicio.replace('.json','')
+        );
         if(desbloquejada) {
           cont.innerHTML += `<div class="gremi-item" style="grid-column:1/-1;">
             <div style="font-size:36px;">${l.icona}</div>
@@ -598,7 +608,7 @@ function mostrarGremi(tab, e) {
         }
       });
     })
-   .catch(err => console.error('Error carregant llegendes:', err));
+  .catch(err => console.error('Error carregant llegendes:', err));
   }
 }
 
@@ -619,13 +629,15 @@ function mostrarBibliotecaTab(tab, e) {
         const nom = info? info.nom_cat : emoji;
         const paraules = info? info.para_frases.join(', ') : '';
         const comprat = desbloquejats.has(emoji);
-        const opacidad = comprat? '1' : '0.3';
-        const filtro = comprat? '' : 'grayscale(1)';
+        const opacidad = comprat? '1' : '0.12'; // casi oculto
+        const filtro = comprat? '' : 'grayscale(1) brightness(0.4)';
         const pointer = comprat? 'pointer' : 'not-allowed';
+        const colorTexto = comprat? '#fff' : '#444';
+        const colorParaules = comprat? '#aaa' : '#222';
         html += `<div style="text-align:center; padding:12px 8px; background:#1a1a1a; border-radius:10px; opacity:${opacidad}; filter:${filtro}; pointer-events:${pointer};">
           <div style="font-size:42px; margin-bottom:6px;">${emoji}</div>
-          <div style="font-size:13px; font-weight:600; color:#fff;">${nom}</div>
-          <div style="font-size:10px; color:#aaa; margin-top:4px;">${paraules}</div>
+          <div style="font-size:13px; font-weight:600; color:${colorTexto};">${nom}</div>
+          <div style="font-size:10px; color:${colorParaules}; margin-top:4px;">${paraules}</div>
         </div>`;
       });
       html += `</div>`;
@@ -678,9 +690,9 @@ function carregarFrasesMinijoc() {
 function generarEmojisParaFraseCorta(frase) {
   const emojisJugador = EMOJIS_JUGABLES.map(e => e.emoji);
   const emojisFalsos = emojisJugador
-   .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
-   .sort(() => 0.5 - Math.random())
-   .slice(0, 10 - frase.solucio.length);
+  .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
+  .sort(() => 0.5 - Math.random())
+  .slice(0, 10 - frase.solucio.length);
   const emojisAMostrar = [...frase.solucio,...emojisFalsos].sort(() => 0.5 - Math.random());
   estat.minijoc.emojisDisponibles = emojisAMostrar;
   let html = '';
