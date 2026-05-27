@@ -406,13 +406,15 @@ function carregarPas() {
     document.getElementById('npc-emoji').textContent = npcEmoji;
     document.getElementById('npc-nom').textContent = npcNom;
 
-    // Dialogo con botón de altavoz
+    // Dialogo con 2 botones de altavoz: ca y es
     document.getElementById('npc-dialog').innerHTML = `
       ${pas.dialog || ''}
-      <button onclick="parlarNPC(\`${(pas.dialog || '').replace(/`/g, '\\`')}\`)"
-        style="background:none; border:none; font-size:20px; margin-left:8px; cursor:pointer; opacity:0.7;">
-        🔊
-      </button>
+      <button onclick="parlarNPC(\`${(pas.dialog || '').replace(/`/g, '\\`')}\`, 'ca')"
+        style="background:none; border:none; font-size:20px; margin-left:8px; cursor:pointer; opacity:0.7;"
+        title="Escoltar en català">🔊</button>
+      <button onclick="parlarNPC(\`${(pas.dialog || '').replace(/`/g, '\\`')}\`, 'es')"
+        style="background:none; border:none; font-size:20px; margin-left:4px; cursor:pointer; opacity:0.7;"
+        title="Escuchar en español">🗣️</button>
     `;
 
     document.getElementById('jugador-emoji').textContent = jugadorEmoji;
@@ -636,7 +638,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
-.then(([barcelona, girona, valencia]) => {
+   .then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -669,7 +671,7 @@ function mostrarGremi(tab, e) {
         }
       });
     })
-.catch(err => console.error('Error carregant llegendes:', err));
+   .catch(err => console.error('Error carregant llegendes:', err));
   }
 }
 
@@ -752,9 +754,9 @@ function carregarFrasesMinijoc() {
 function generarEmojisParaFraseCorta(frase) {
   const emojisJugador = EMOJIS_JUGABLES.map(e => e.emoji);
   const emojisFalsos = emojisJugador
-.filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
-.sort(() => 0.5 - Math.random())
-.slice(0, 10 - frase.solucio.length);
+ .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
+ .sort(() => 0.5 - Math.random())
+ .slice(0, 10 - frase.solucio.length);
   const emojisAMostrar = [...frase.solucio,...emojisFalsos].sort(() => 0.5 - Math.random());
   estat.minijoc.emojisDisponibles = emojisAMostrar;
   let html = '';
@@ -924,8 +926,8 @@ function renderitzarBotiga() {
   });
 }
 
-// Función parlantito para escuchar al NPC
-function parlarNPC(texto) {
+// Función parlantito con 2 idiomas
+function parlarNPC(texto, lang = 'ca') {
   if (!('speechSynthesis' in window)) {
     mostrarModal('El teu navegador no suporta veu');
     return;
@@ -934,18 +936,23 @@ function parlarNPC(texto) {
   speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(texto);
-  utterance.lang = 'ca-ES';
-  utterance.rate = 0.85;
-  utterance.pitch = 1.05;
 
-  const veus = speechSynthesis.getVoices();
-  const veuGirona = veus.find(v => v.name.toLowerCase().includes('montserrat'));
-  const veuNuria = veus.find(v => v.name.toLowerCase().includes('nuria'));
-  const veuCat = veus.find(v => v.lang === 'ca-ES');
-
-  if (veuGirona) utterance.voice = veuGirona;
-  else if (veuNuria) utterance.voice = veuNuria;
-  else if (veuCat) utterance.voice = veuCat;
+  if (lang === 'es') {
+    utterance.lang = 'es-ES';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+  } else {
+    utterance.lang = 'ca-ES';
+    utterance.rate = 0.85;
+    utterance.pitch = 1.05;
+    const veus = speechSynthesis.getVoices();
+    const veuGirona = veus.find(v => v.name.toLowerCase().includes('montserrat'));
+    const veuNuria = veus.find(v => v.name.toLowerCase().includes('nuria'));
+    const veuCat = veus.find(v => v.lang === 'ca-ES');
+    if (veuGirona) utterance.voice = veuGirona;
+    else if (veuNuria) utterance.voice = veuNuria;
+    else if (veuCat) utterance.voice = veuCat;
+  }
 
   speechSynthesis.speak(utterance);
 }
