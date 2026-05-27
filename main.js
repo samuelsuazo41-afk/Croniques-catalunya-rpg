@@ -41,14 +41,17 @@ let estat = {
 };
 
 const LANGS = {
-  es: {app_titol: "Cròniques de Catalunya RPG", monedes: "Monedas", tab_mapa: "Mundo", tab_missio: "Misión", tab_gremi: "Gremio", tab_botiga: "Tienda", text_mon: "🗺️ Mapa de Catalunya", text_botiga: "🛒 Tienda", entrar: "Entrar", bloquejat: "Bloqueado", completat: "Completado", repetir: "Repetir", volver_mapa: "Volver al mapa", mision_completada: "¡Misión completada!", item_desbloquejat: "¡Item desbloqueado!", ruta_secreta: "Ruta secreta desbloquejada!", repas_rapido: "Repàs Ràpid", repas_titulo: "Repàs Ràpid - 5 Preguntes", tria_personatge: "Tria el teu personatge", nom_personatge: "Com et dius?", canviar_personatge: "Canviar Personatge", biblioteca: "Biblioteca", biblioteca_desc: "Tots els personatges disponibles per les teves històries", minijoc_titol: "Arma la frase", minijoc_desc: "Tria els emojis per formar la frase", comprovar: "Comprovar", correcte: "Correcte!", incorrecte: "No és així. Era:", no_prou_monedes: "No tens prou monedes!", comprat: "Comprat", desbloqueja_ruta: "Amb 3 ítems del capítol {n} desbloqueges la ruta secreta de {ciutat}", no_frases_disponibles: "Compra més emojis per desbloquejar frases!"},
-  ca: {app_titol: "Cròniques de Catalunya RPG", monedes: "Monedes", tab_mapa: "Món", tab_missio: "Missió", tab_gremi: "Gremi", tab_botiga: "Botiga", text_mon: "🗺️ Mapa de Catalunya", text_botiga: "🛒 Botiga", entrar: "Entrar", bloquejat: "Bloquejat", completat: "Completat", repetir: "Repetir", volver_mapa: "Tornar al mapa", mision_completada: "Missió completada!", item_desbloquejat: "Item desbloquejat!", ruta_secreta: "Ruta secreta desbloquejada!", repas_rapido: "Repàs Ràpid", repas_titulo: "Repàs Ràpid - 5 Preguntes", tria_personatge: "Tria el teu personatge", nom_personatge: "Com et dius?", canviar_personatge: "Canviar Personatge", biblioteca: "Biblioteca", biblioteca_desc: "Tots els personatges disponibles per les teves històries", minijoc_titol: "Arma la frase", minijoc_desc: "Tria els emojis per formar la frase", comprovar: "Comprovar", correcte: "Correcte!", incorrecte: "No és així. Era:", no_prou_monedes: "No tens prou monedes!", comprat: "Comprat", desbloqueja_ruta: "Amb 3 ítems del capítol {n} desbloqueges la ruta secreta de {ciutat}", no_frases_disponibles: "Compra més emojis per desbloquejar frases!"}
+  es: {app_titol: "Cròniques de Catalunya RPG", monedes: "Monedas", tab_mapa: "Mundo", tab_missio: "Misión", tab_gremi: "Gremio", tab_botiga: "Tienda", text_mon: "🗺️ Mapa de Catalunya", text_botiga: "🛒 Tienda", entrar: "Entrar", bloquejat: "Bloqueado", completat: "Completado", repetir: "Repetir", volver_mapa: "Volver al mapa", mision_completada: "¡Misión completada!", item_desbloquejat: "¡Item desbloqueado!", ruta_secreta: "Ruta secreta desbloquejada!", repas_rapido: "Repàs Ràpid", repas_titulo: "Repàs Ràpid - 5 Preguntes", tria_personatge: "Tria el teu personatge", nom_personatge: "Com et dius?", canviar_personatge: "Canviar Personatge", biblioteca: "Biblioteca", biblioteca_desc: "Tots els personatges disponibles per les teves històries", biblioteca_cta: "💡 Compra packs de emoji en la tienda y desbloquea toda la biblioteca!", minijoc_titol: "Arma la frase", minijoc_desc: "Tria els emojis per formar la frase", comprovar: "Comprovar", correcte: "Correcte!", incorrecte: "No és així. Era:", no_prou_monedes: "No tens prou monedes!", comprat: "Comprat", desbloqueja_ruta: "Amb 3 ítems del capítol {n} desbloqueges la ruta secreta de {ciutat}", no_frases_disponibles: "Compra més emojis per desbloquejar frases!"},
+  ca: {app_titol: "Cròniques de Catalunya RPG", monedes: "Monedes", tab_mapa: "Món", tab_missio: "Missió", tab_gremi: "Gremi", tab_botiga: "Botiga", text_mon: "🗺️ Mapa de Catalunya", text_botiga: "🛒 Botiga", entrar: "Entrar", bloquejat: "Bloquejat", completat: "Completat", repetir: "Repetir", volver_mapa: "Tornar al mapa", mision_completada: "Missió completada!", item_desbloquejat: "Item desbloquejat!", ruta_secreta: "Ruta secreta desbloquejada!", repas_rapido: "Repàs Ràpid", repas_titulo: "Repàs Ràpid - 5 Preguntes", tria_personatge: "Tria el teu personatge", nom_personatge: "Com et dius?", canviar_personatge: "Canviar Personatge", biblioteca: "Biblioteca", biblioteca_desc: "Tots els personatges disponibles per les teves històries", biblioteca_cta: "💡 Compra packs d'emoji a la botiga i desbloqueja tota la biblioteca!", minijoc_titol: "Arma la frase", minijoc_desc: "Tria els emojis per formar la frase", comprovar: "Comprovar", correcte: "Correcte!", incorrecte: "No és així. Era:", no_prou_monedes: "No tens prou monedes!", comprat: "Comprat", desbloqueja_ruta: "Amb 3 ítems del capítol {n} desbloqueges la ruta secreta de {ciutat}", no_frases_disponibles: "Compra més emojis per desbloquejar frases!"}
 };
 
 let idioma = localStorage.getItem('cat_idioma') || 'ca';
 let LANG = LANGS[idioma];
 
+// PERSONAJES ACTUALIZADOS - añadidos Joven y Jova
 const PERSONATGES_JUGADOR = [
+  {id: 'joven', emoji: '👦', nom: 'Joven'},
+  {id: 'jova', emoji: '👧', nom: 'Jova'},
   {id: 'noi', emoji: '👦', nom: 'Noi'},
   {id: 'noia', emoji: '👧', nom: 'Noia'},
   {id: 'home', emoji: '👨', nom: 'Home'},
@@ -71,20 +74,17 @@ let audioCtx = false;
 let musicaLoop = false;
 let melodiaActual = false;
 
-// BEAT FALLERO NUEVO - 16 tiempos, más festivo
+// BEAT FALLERO - 16 tiempos festivo
 const MELODIAS = {
   gremi: [{freq: 196, dur: 1.5}, {freq: 220, dur: 1.5}, {freq: 196, dur: 3.0}],
   estudio: [{freq: 174, dur: 2.0}, {freq: 196, dur: 2.0}, {freq: 220, dur: 4.0}],
   calma: [{freq: 147, dur: 3.0}, {freq: 165, dur: 3.0}],
   fallero: [
-    // Intro bombos falleros
     {freq: 130, dur: 0.25}, {freq: 0, dur: 0.25}, {freq: 146, dur: 0.25}, {freq: 0, dur: 0.25},
     {freq: 130, dur: 0.25}, {freq: 0, dur: 0.25}, {freq: 146, dur: 0.25}, {freq: 196, dur: 0.25},
-    // Melodía fallera clásica
     {freq: 196, dur: 0.2}, {freq: 220, dur: 0.2}, {freq: 246, dur: 0.2}, {freq: 261, dur: 0.2},
     {freq: 293, dur: 0.4}, {freq: 261, dur: 0.2}, {freq: 246, dur: 0.2}, {freq: 220, dur: 0.2},
     {freq: 196, dur: 0.4}, {freq: 174, dur: 0.2}, {freq: 196, dur: 0.2}, {freq: 220, dur: 0.2},
-    // Cierre explosivo
     {freq: 246, dur: 0.3}, {freq: 293, dur: 0.3}, {freq: 329, dur: 0.6}, {freq: 0, dur: 0.3}
   ]
 };
@@ -129,7 +129,7 @@ function iniciarMusicaChiptune(nombreMelodia = 'estudio') {
     const gain = audioCtx.createGain();
     osc.type = 'square';
     osc.frequency.value = nota.freq;
-    gain.gain.value = 0.001; // mismo volumen que antes
+    gain.gain.value = 0.001;
     osc.connect(gain);
     gain.connect(audioCtx.destination);
     osc.start(tiempo);
@@ -242,8 +242,8 @@ function canviarTab(tab, e) {
   if(e && e.target) e.target.closest('.nav-item').classList.add('active');
   if(tab === 'mapa') {pararMusica(); carregarMapa();}
   if(tab === 'missio') {pararMusica(); carregarMissioTab();}
-  if(tab === 'gremi') {iniciarMusicaChiptune('fallero'); mostrarGremi('personatges', e);} // BEAT FALLERO
-  if(tab === 'botiga') {iniciarMusicaChiptune('estudio'); carregarBotiga();}
+  if(tab === 'gremi') {iniciarMusicaChiptune('fallero'); mostrarGremi('personatges', e);}
+  if(tab === 'botiga') {iniciarMusicaChiptune('fallero'); carregarBotiga();} // BEAT FALLERO TAMBIEN EN BOTIGA
 }
 
 async function carregarItems() {
@@ -385,7 +385,7 @@ function seleccionarOpcio(idx) {
   const feedback = opcio.feedback;
   estat.bloquejat = true;
   document.querySelectorAll('.opcio').forEach(o => o.classList.add('disabled'));
-  const duracio = 8000; // 8 segundos
+  const duracio = 8000;
   mostrarFeedback(feedback, duracio);
   if(opcio.correcte && AUDIO_ENCERT) AUDIO_ENCERT.play();
   if(!opcio.correcte && AUDIO_FALLADA) AUDIO_FALLADA.play();
@@ -580,7 +580,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
-  .then(([barcelona, girona, valencia]) => {
+ .then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -608,7 +608,7 @@ function mostrarGremi(tab, e) {
         }
       });
     })
-  .catch(err => console.error('Error carregant llegendes:', err));
+ .catch(err => console.error('Error carregant llegendes:', err));
   }
 }
 
@@ -621,6 +621,8 @@ function mostrarBibliotecaTab(tab, e) {
     const desbloquejats = new Set(estat.emojisDesbloquejats || []);
     let html = `<h3 style="text-align:center; margin-bottom:10px;">${LANG.biblioteca}</h3>`;
     html += `<p style="text-align:center; color:#888; margin-bottom:20px; font-size:14px;">${LANG.biblioteca_desc}</p>`;
+    // MENSAJE CTA PARA COMPRAR PACKS
+    html += `<div style="background:linear-gradient(135deg, var(--accent), var(--accent2)); padding:12px; border-radius:12px; margin-bottom:20px; text-align:center; font-weight:700; font-size:14px;">${LANG.biblioteca_cta}</div>`;
     for (const [cat, emojis] of Object.entries(CATEGORIES_EMOJI)) {
       html += `<h4 style="margin:15px 0 8px; color:#4CAF50; text-transform:capitalize;">${cat}</h4>`;
       html += `<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;">`;
@@ -690,9 +692,9 @@ function carregarFrasesMinijoc() {
 function generarEmojisParaFraseCorta(frase) {
   const emojisJugador = EMOJIS_JUGABLES.map(e => e.emoji);
   const emojisFalsos = emojisJugador
-  .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
-  .sort(() => 0.5 - Math.random())
-  .slice(0, 10 - frase.solucio.length);
+ .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
+ .sort(() => 0.5 - Math.random())
+ .slice(0, 10 - frase.solucio.length);
   const emojisAMostrar = [...frase.solucio,...emojisFalsos].sort(() => 0.5 - Math.random());
   estat.minijoc.emojisDisponibles = emojisAMostrar;
   let html = '';
