@@ -387,7 +387,16 @@ function carregarPas() {
     npcBox.style.display = 'block';
     document.getElementById('npc-emoji').textContent = npcEmoji;
     document.getElementById('npc-nom').textContent = npcNom;
-    document.getElementById('npc-dialog').textContent = pas.dialog || '';
+
+    // Dialogo con botón de altavoz
+    document.getElementById('npc-dialog').innerHTML = `
+      ${pas.dialog || ''}
+      <button onclick="parlarNPC(\`${(pas.dialog || '').replace(/`/g, '\\`')}\`)"
+        style="background:none; border:none; font-size:20px; margin-left:8px; cursor:pointer; opacity:0.7;">
+        🔊
+      </button>
+    `;
+
     document.getElementById('jugador-emoji').textContent = jugadorEmoji;
     document.getElementById('jugador-nom').textContent = jugadorNom;
     document.getElementById('missio-titol').textContent = pas.pregunta;
@@ -644,7 +653,7 @@ function mostrarGremi(tab, e) {
     })
 .catch(err => console.error('Error carregant llegendes:', err));
   }
-} // <- CIERRE DE mostrarGremi
+}
 
 function mostrarBibliotecaTab(tab, e) {
   document.querySelectorAll('#biblioteca-subtabs.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -895,6 +904,36 @@ function renderitzarBotiga() {
     `;
     cont.appendChild(card);
   });
+}
+
+// Función parlantito para escuchar al NPC
+function parlarNPC(texto) {
+  if (!('speechSynthesis' in window)) {
+    mostrarModal('El teu navegador no suporta veu');
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(texto);
+  utterance.lang = 'ca-ES';
+  utterance.rate = 0.85;
+  utterance.pitch = 1.05;
+
+  const veus = speechSynthesis.getVoices();
+  const veuGirona = veus.find(v => v.name.toLowerCase().includes('montserrat'));
+  const veuNuria = veus.find(v => v.name.toLowerCase().includes('nuria'));
+  const veuCat = veus.find(v => v.lang === 'ca-ES');
+
+  if (veuGirona) utterance.voice = veuGirona;
+  else if (veuNuria) utterance.voice = veuNuria;
+  else if (veuCat) utterance.voice = veuCat;
+
+  speechSynthesis.speak(utterance);
+}
+
+if ('speechSynthesis' in window) {
+  speechSynthesis.onvoiceschanged = () => {};
 }
 
 // Exponer funciones globales para los botones del modal
