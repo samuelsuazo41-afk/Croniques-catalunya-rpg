@@ -582,7 +582,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
-   .then(([barcelona, girona, valencia]) => {
+  .then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -590,9 +590,19 @@ function mostrarGremi(tab, e) {
         return;
       }
       totes.forEach(l => {
-        const desbloquejada = estat.capitolsCompletats.some(id =>
-          id === l.condicio || id === l.condicio.replace('.json','')
-        );
+        let desbloquejada = false;
+
+        // Soporta 2 formatos de condicio:
+        // 1. "capitol1_bcn_born" -> busca si está completado
+        // 2. "completar_capitol_02_girona" -> extrae el id y busca si está completado
+        if(l.condicio && l.condicio.startsWith('completar_')) {
+          const idCapitol = l.condicio.replace('completar_', '');
+          desbloquejada = estat.capitolsCompletats.includes(idCapitol);
+        } else if(l.condicio) {
+          const idCapitol = l.condicio.replace('.json','');
+          desbloquejada = estat.capitolsCompletats.includes(idCapitol);
+        }
+
         if(desbloquejada) {
           cont.innerHTML += `<div class="gremi-item" style="grid-column:1/-1;">
             <div style="font-size:36px;">${l.icona}</div>
@@ -609,9 +619,8 @@ function mostrarGremi(tab, e) {
         }
       });
     })
-   .catch(err => console.error('Error carregant llegendes:', err));
+  .catch(err => console.error('Error carregant llegendes:', err));
   }
-}
 
 function mostrarBibliotecaTab(tab, e) {
   document.querySelectorAll('#biblioteca-subtabs.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
