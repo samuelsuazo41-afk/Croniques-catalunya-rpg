@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v43';
+const CACHE_VERSION = 'v50';
 const CACHE_NAME = `croniques-catalunya-rpg-${CACHE_VERSION}`;
 
 const urlsToCache = [
@@ -31,8 +31,11 @@ const urlsToCache = [
   './camisa_cenguera.png',
   './ram_roses_girona.png',
   './fuet_fires.png',
-  './icon-192.png',
-  './icon-512.png'
+  
+  // Iconos NUEVOS - rutas corregidas
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-512-maskable.png'
 ];
 
 self.addEventListener('install', event => {
