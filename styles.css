@@ -310,11 +310,6 @@ header h1 {
   color: white;
 }
 
-.ruta-secreta {
-  opacity: 0.6;
-  border-style: dashed;
-}
-
 .ruta-secreta-txt {
   font-size: 13px;
   color: var(--text-sec);
@@ -355,4 +350,25 @@ header h1 {
   font-size: 11px;
   color: var(--text-sec);
   margin-top: 4px;
+}
+
+/* === RUTAS SECRETAS EN EL MAPA === */
+.capitol-card.ruta-secreta {
+  border: 2px dashed #555;
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+}
+
+.capitol-card.ruta-secreta.bloquejat {
+  opacity: 0.35;
+  filter: grayscale(1) brightness(0.4);
+  cursor: not-allowed;
+}
+
+.capitol-card.ruta-secreta.bloquejat .capitol-icona {
+  filter: grayscale(1) brightness(0.3);
+}
+
+.capitol-card.ruta-secreta:not(.bloquejat) {
+  border-color: #FFD700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
 }
