@@ -48,7 +48,7 @@ const LANGS = {
 let idioma = localStorage.getItem('cat_idioma') || 'ca';
 let LANG = LANGS[idioma];
 
-// PERSONAJES ACTUALIZADOS - Joven y Jova añadidos
+// PERSONATGES ACTUALITZATS - Joven i Jova afegits
 const PERSONATGES_JUGADOR = [
   {id: 'joven', emoji: '👦', nom: 'Joven'},
   {id: 'jova', emoji: '👧', nom: 'Jova'},
@@ -74,7 +74,7 @@ let audioCtx = false;
 let musicaLoop = false;
 let melodiaActual = false;
 
-// BEAT FALLERO - 16 tiempos festivo
+// BEAT FALLERO - 16 temps festiu
 const MELODIAS = {
   gremi: [{freq: 196, dur: 1.5}, {freq: 220, dur: 1.5}, {freq: 196, dur: 3.0}],
   estudio: [{freq: 174, dur: 2.0}, {freq: 196, dur: 2.0}, {freq: 220, dur: 4.0}],
@@ -452,8 +452,8 @@ function completarCapitol() {
       <h2>✅ ${LANG.mision_completada}</h2>
       ${htmlPremi}
       <div class="completion-buttons">
-        <button class="btn btn-sec" onclick="tornarMapa()">${LANG.volver_mapa}</button>
-        <button class="btn" onclick="repetirCapitolActual()">${LANG.repetir}</button>
+        <button class="btn btn-sec" onclick="window.tornarMapa()">${LANG.volver_mapa}</button>
+        <button class="btn" onclick="window.repetirCapitolActual()">${LANG.repetir}</button>
       </div>
     </div>
   `;
@@ -477,6 +477,7 @@ function repetirCapitolActual() {
   if (!estat.capitolActual) return;
   repetirCapitol(estat.capitolActual.id);
 }
+window.repetirCapitolActual = repetirCapitolActual;
 
 function tornarMapa() {
   estat.capitolActual = null;
@@ -486,6 +487,7 @@ function tornarMapa() {
   document.getElementById('missio-card').innerHTML = `<h3 id="missio-titol">Selecciona una missió al mapa</h3><div id="missio-escenari"></div><div id="missio-opcions"></div><div id="missio-feedback"></div>`;
   canviarTab('mapa', null);
 }
+window.tornarMapa = tornarMapa;
 
 function carregarMissioTab() {
   const rutes = document.getElementById('rutes-secretes');
@@ -580,7 +582,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
-.then(([barcelona, girona, valencia]) => {
+   .then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -607,7 +609,7 @@ function mostrarGremi(tab, e) {
         }
       });
     })
-.catch(err => console.error('Error carregant llegendes:', err));
+   .catch(err => console.error('Error carregant llegendes:', err));
   }
 }
 
@@ -690,9 +692,9 @@ function carregarFrasesMinijoc() {
 function generarEmojisParaFraseCorta(frase) {
   const emojisJugador = EMOJIS_JUGABLES.map(e => e.emoji);
   const emojisFalsos = emojisJugador
-.filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
-.sort(() => 0.5 - Math.random())
-.slice(0, 10 - frase.solucio.length);
+ .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
+ .sort(() => 0.5 - Math.random())
+ .slice(0, 10 - frase.solucio.length);
   const emojisAMostrar = [...frase.solucio,...emojisFalsos].sort(() => 0.5 - Math.random());
   estat.minijoc.emojisDisponibles = emojisAMostrar;
   let html = '';
@@ -752,7 +754,7 @@ function comprovarMinijoc() {
   const feedback = document.getElementById('minijoc-feedback');
   if (esCorrecte) {
     feedback.innerHTML = `<p style="color:#4CAF50; font-weight:bold;">${LANG.correcte}</p>`;
-    estat.monedes += 50;
+    estat.monedes += 150; // +150 en vez de 50 para que rente igual que un capítulo
     estat.stats.arrel += 5;
     actualitzarUI();
     guardarEstat();
