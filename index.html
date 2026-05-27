@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- Iconos correctes - els vermells/dorats -->
+<!-- Iconos nous vermells/dorats -->
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
@@ -127,7 +127,7 @@
   </div>
 </div>
 
-<!-- Tutorial Benvinguda - surt només la primera vegada -->
+<!-- Tutorial Benvinguda -->
 <div id="tutorialModal" class="modal hidden">
   <div class="modal-content" style="max-width: 420px;">
     <div id="tutorialSlide"></div>
@@ -143,12 +143,12 @@ function vibrar() {
   if (navigator.vibrate) navigator.vibrate(20);
 }
 
-// Registrar Service Worker para que funcione offline
+// Registrar Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
-     .then(reg => console.log('SW registrat:', reg.scope))
-     .catch(err => console.log('SW error:', err));
+    .then(reg => console.log('SW registrat:', reg.scope))
+    .catch(err => console.log('SW error:', err));
   });
 }
 </script>
@@ -156,21 +156,27 @@ if ('serviceWorker' in navigator) {
 <script src="./main.js"></script>
 
 <script>
-// Tutorial de benvinguda
+// Tutorial de benvinguda bilingüe
 const TUTORIAL_SLIDES = [
   {
     titol: "Benvingut a Cròniques de Catalunya",
+    titol_es: "Bienvenido a Crónicas de Catalunya",
     text: "Aprèn català viatjant per Barcelona, Girona i València. Completa missions i desbloqueja rutes secretes!",
+    text_es: "Aprende catalán viajando por Barcelona, Girona y Valencia. ¡Completa misiones y desbloquea rutas secretas!",
     emoji: "🗺️"
   },
   {
     titol: "Com es juga",
+    titol_es: "Cómo se juega",
     text: "Tria la resposta correcta a cada diàleg. Si fas 0 fallos en un capítol, guanyes objectes especials.",
+    text_es: "Elige la respuesta correcta en cada diálogo. Si no fallas en un capítulo, ganas objetos especiales.",
     emoji: "🎯"
   },
   {
     titol: "El teu tòtem",
+    titol_es: "Tu tótem",
     text: "Segons les teves respostes desenvoluparàs Seny, Rauxa, Arrel o Obert. Això canvia el teu avatar.",
+    text_es: "Según tus respuestas desarrollarás Seny, Rauxa, Arrel o Obert. Eso cambia tu avatar.",
     emoji: "🦉"
   }
 ];
@@ -186,12 +192,19 @@ function iniciarTutorial() {
 function mostrarSlide(n) {
   slideActual = n;
   const slide = TUTORIAL_SLIDES[n];
+  const idioma = localStorage.getItem('cat_idioma') || 'ca';
+  const titol = idioma === 'es'? slide.titol_es : slide.titol;
+  const text = idioma === 'es'? slide.text_es : slide.text;
+
   document.getElementById('tutorialSlide').innerHTML = `
     <div style="font-size:64px; margin-bottom:15px;">${slide.emoji}</div>
-    <h3 style="margin-bottom:12px;">${slide.titol}</h3>
-    <p style="color:#ccc; line-height:1.6;">${slide.text}</p>
+    <h3 style="margin-bottom:12px;">${titol}</h3>
+    <p style="color:#ccc; line-height:1.6;">${text}</p>
   `;
-  document.getElementById('btnNextTutorial').textContent = n === TUTORIAL_SLIDES.length - 1? 'Començar' : 'Següent';
+  document.getElementById('btnNextTutorial').textContent =
+    n === TUTORIAL_SLIDES.length - 1?
+    (idioma==='es'? 'Empezar' : 'Començar') :
+    (idioma==='es'? 'Siguiente' : 'Següent');
 }
 
 function seguentTutorial() {
@@ -207,7 +220,6 @@ function tancarTutorial() {
   localStorage.setItem('cat_tutorial_vist', 'true');
 }
 
-// Llançar tutorial quan el main.js ha carregat
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(iniciarTutorial, 500);
 });
