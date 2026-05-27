@@ -390,7 +390,7 @@ function seleccionarOpcio(idx) {
   if(opcio.correcte && AUDIO_ENCERT) AUDIO_ENCERT.play();
   if(!opcio.correcte && AUDIO_FALLADA) AUDIO_FALLADA.play();
   if (opcio.correcte) {
-    estat.monedes += opcio.guany?.monedes || 0;
+    estat.monedes += opcio.guany?.monedes || 5;
     estat.stats.seny += opcio.guany?.seny || 0;
     estat.stats.rauxa += opcio.guany?.rauxa || 0;
     estat.stats.arrel += opcio.guany?.arrel || 0;
@@ -754,7 +754,7 @@ function comprovarMinijoc() {
   const feedback = document.getElementById('minijoc-feedback');
   if (esCorrecte) {
     feedback.innerHTML = `<p style="color:#4CAF50; font-weight:bold;">${LANG.correcte}</p>`;
-    estat.monedes += 150; // +150 en vez de 50 para que rente igual que un capítulo
+    estat.monedes += 5; // +5 en vez de 50 para que rente igual que un capítulo
     estat.stats.arrel += 5;
     actualitzarUI();
     guardarEstat();
