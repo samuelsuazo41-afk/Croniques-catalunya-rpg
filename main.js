@@ -8,16 +8,16 @@ let EMOJIS_JUGABLES = [];
 
 // Starter pack
 const EMOJIS_STARTER = [
-  {emoji: "😀", nom_cat: "Somriure", categoria: "emocio", para_frases: ["riu", "content"]},
-  {emoji: "😊", nom_cat: "Feliç", categoria: "emocio", para_frases: ["feliç", "content"]},
-  {emoji: "😂", nom_cat: "Riure", categoria: "emocio", para_frases: ["riure", "riure"]},
-  {emoji: "👨", nom_cat: "Home", categoria: "persona", para_frases: ["home", "pare"]},
-  {emoji: "👩", nom_cat: "Dona", categoria: "persona", para_frases: ["dona", "mare"]},
-  {emoji: "🐶", nom_cat: "Gos", categoria: "animal", para_frases: ["gos", "gosset"]},
-  {emoji: "🏠", nom_cat: "Casa", categoria: "lloc", para_frases: ["casa", "casa meva"]},
-  {emoji: "🍎", nom_cat: "Poma", categoria: "menjar", para_frases: ["poma", "fruita"]},
-  {emoji: "🚗", nom_cat: "Cotxe", categoria: "transport", para_frases: ["cotxe", "anar"]},
-  {emoji: "⚽", nom_cat: "Futbol", categoria: "esport", para_frases: ["futbol", "jugar"]}
+  {emoji: "😀", nom_cat: "Somriure", categoria: "emocio", para_frases: ["riu", "content"], genere: "m"},
+  {emoji: "😊", nom_cat: "Feliç", categoria: "emocio", para_frases: ["feliç", "content"], genere: "m"},
+  {emoji: "😂", nom_cat: "Riure", categoria: "emocio", para_frases: ["riure", "riure"], genere: "m"},
+  {emoji: "👨", nom_cat: "Home", categoria: "persona", para_frases: ["home", "pare"], genere: "m"},
+  {emoji: "👩", nom_cat: "Dona", categoria: "persona", para_frases: ["dona", "mare"], genere: "f"},
+  {emoji: "🐶", nom_cat: "Gos", categoria: "animal", para_frases: ["gos", "gosset"], genere: "m"},
+  {emoji: "🏠", nom_cat: "Casa", categoria: "lloc", para_frases: ["casa", "casa meva"], genere: "f"},
+  {emoji: "🍎", nom_cat: "Poma", categoria: "menjar", para_frases: ["poma", "fruita"], genere: "f"},
+  {emoji: "🚗", nom_cat: "Cotxe", categoria: "transport", para_frases: ["cotxe", "anar"], genere: "m"},
+  {emoji: "⚽", nom_cat: "Futbol", categoria: "esport", para_frases: ["futbol", "jugar"], genere: "m"}
 ];
 
 let estat = {
@@ -582,7 +582,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
-  .then(([barcelona, girona, valencia]) => {
+ .then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -591,10 +591,6 @@ function mostrarGremi(tab, e) {
       }
       totes.forEach(l => {
         let desbloquejada = false;
-
-        // Soporta 2 formatos de condicio:
-        // 1. "capitol1_bcn_born" -> busca si está completado
-        // 2. "completar_capitol_02_girona" -> extrae el id y busca si está completado
         if(l.condicio && l.condicio.startsWith('completar_')) {
           const idCapitol = l.condicio.replace('completar_', '');
           desbloquejada = estat.capitolsCompletats.includes(idCapitol);
@@ -619,8 +615,9 @@ function mostrarGremi(tab, e) {
         }
       });
     })
-  .catch(err => console.error('Error carregant llegendes:', err));
+ .catch(err => console.error('Error carregant llegendes:', err));
   }
+} // <- CIERRE DE mostrarGremi
 
 function mostrarBibliotecaTab(tab, e) {
   document.querySelectorAll('#biblioteca-subtabs.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -701,9 +698,9 @@ function carregarFrasesMinijoc() {
 function generarEmojisParaFraseCorta(frase) {
   const emojisJugador = EMOJIS_JUGABLES.map(e => e.emoji);
   const emojisFalsos = emojisJugador
- .filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
- .sort(() => 0.5 - Math.random())
- .slice(0, 10 - frase.solucio.length);
+.filter(e =>!frase.solucio.some(eSol => quitarSkinTone(e) === quitarSkinTone(eSol)))
+.sort(() => 0.5 - Math.random())
+.slice(0, 10 - frase.solucio.length);
   const emojisAMostrar = [...frase.solucio,...emojisFalsos].sort(() => 0.5 - Math.random());
   estat.minijoc.emojisDisponibles = emojisAMostrar;
   let html = '';
@@ -717,6 +714,14 @@ function generarEmojisParaFraseCorta(frase) {
   document.getElementById('minijoc-emojis').innerHTML = html;
 }
 
+function obtenirArticle(emoji) {
+  const emojiData = EMOJIS_JUGABLES.find(e => quitarSkinTone(e.emoji) === quitarSkinTone(emoji));
+  if (!emojiData ||!emojiData.genere) return emojiData?.nom_cat || emoji;
+  const nom = emojiData.nom_cat;
+  const article = emojiData.genere === 'f'? 'La' : 'El';
+  return `${article} ${nom}`;
+}
+
 function generarFraseDinamica(plantilla, emojisJugador) {
   let text = plantilla.text;
   let solucio = [];
@@ -728,15 +733,10 @@ function generarFraseDinamica(plantilla, emojisJugador) {
       return generarFraseDinamica(FRASES_MINIJOC[Math.floor(Math.random() * FRASES_MINIJOC.length)], emojisJugador);
     }
     const emojiElegit = emojisDisponibles[Math.floor(Math.random() * emojisDisponibles.length)];
-    text = text.replace(`{${cat}}`, obtenirNomEmoji(emojiElegit));
+    text = text.replace(`{${cat}}`, obtenirArticle(emojiElegit));
     solucio.push(emojiElegit);
   }
   return { text, solucio };
-}
-
-function obtenirNomEmoji(emoji) {
-  const emojiData = EMOJIS_JUGABLES.find(e => quitarSkinTone(e.emoji) === quitarSkinTone(emoji));
-  return emojiData?.nom_cat || emoji;
 }
 
 function triarEmojiMinijoc(index) {
@@ -763,7 +763,7 @@ function comprovarMinijoc() {
   const feedback = document.getElementById('minijoc-feedback');
   if (esCorrecte) {
     feedback.innerHTML = `<p style="color:#4CAF50; font-weight:bold;">${LANG.correcte}</p>`;
-    estat.monedes += 5; // +5 en vez de 50 para que rente igual que un capítulo
+    estat.monedes += 5;
     estat.stats.arrel += 5;
     actualitzarUI();
     guardarEstat();
@@ -870,6 +870,7 @@ function renderitzarBotiga() {
   });
 }
 
+// Exponer funciones globales para los botones del modal
 window.repetirCapitolActual = repetirCapitolActual;
 window.tornarMapa = tornarMapa;
 
