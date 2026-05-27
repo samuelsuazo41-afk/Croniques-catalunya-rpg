@@ -7,6 +7,7 @@
   --text-sec: #b3b3b3;
   --success: #4CAF50;
   --danger: #f44336;
+  --secret: #FFD700;
 }
 
 [data-totem="seny"] { --accent: #2196F3; --accent2: #64B5F6; }
@@ -352,23 +353,43 @@ header h1 {
   margin-top: 4px;
 }
 
-/* === RUTAS SECRETAS EN EL MAPA === */
+/* === RUTAS SECRETAS EN EL MAPA - ESTILO MISSIÓ === */
 .capitol-card.ruta-secreta {
-  border: 2px dashed #555;
-  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  border: 2px dashed var(--secret);
+  background: linear-gradient(135deg, #151515 0%, #1f1f1f 100%);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.15);
 }
 
 .capitol-card.ruta-secreta.bloquejat {
-  opacity: 0.35;
-  filter: grayscale(1) brightness(0.4);
+  opacity: 0.85;
+  filter: none;
   cursor: not-allowed;
 }
 
 .capitol-card.ruta-secreta.bloquejat .capitol-icona {
-  filter: grayscale(1) brightness(0.3);
+  filter: grayscale(0.3) brightness(1.2);
+  font-size: 56px;
+}
+
+.capitol-card.ruta-secreta.bloquejat h3 {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.capitol-card.ruta-secreta.bloquejat p {
+  color: var(--text-sec);
+  font-size: 13px;
+  margin-top: 6px;
 }
 
 .capitol-card.ruta-secreta:not(.bloquejat) {
-  border-color: #FFD700;
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+  border-color: var(--secret);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+  animation: secretGlow 2s ease-in-out infinite;
+}
+
+@keyframes secretGlow {
+ 0%, 100% { box-shadow: 0 0 16px rgba(255, 215, 0, 0.35); }
+ 50% { box-shadow: 0 0 24px rgba(255, 215, 0, 0.5); }
 }
