@@ -66,6 +66,13 @@ const CAPITOLS = [
   {id: "capitol_03_fires_valencia", nom: "València - Fira de Falles", icona: "🔥", desbloquejat: false, desc: "La fira està encesa. Parla amb la gent i guanya el Fuet del Foc.", archivo: "capitol_03_fires_valencia.json", requereix: "capitol_02_girona", recompensa_100: {item_id: "clau_de_la_lonja", ruta: "ruta_valencia_ciutat_vella"}}
 ];
 
+// Rutes secretes per mostrar-les sempre al mapa
+const RUTES_SECRETES = [
+  {id: "ruta_rave_port_olympic", nom: "Port Olímpic Rave", icona: "🗝️", requereix_capitol: "capitol_01_bcn_born", desc: "Desbloqueja fent 3x100 el Born"},
+  {id: "ruta_girona_muralla_viva", nom: "Muralla Viva", icona: "🗝️", requereix_capitol: "capitol_02_girona", desc: "Desbloqueja fent 3x100 Girona"},
+  {id: "ruta_valencia_ciutat_vella", nom: "Ciutat Vella Oculta", icona: "🗝️", requereix_capitol: "capitol_03_fires_valencia", desc: "Desbloqueja fent 3x100 València"}
+];
+
 let ITEMS = {};
 let AUDIO_ENCERT = null;
 let AUDIO_FALLADA = null;
@@ -261,6 +268,8 @@ function carregarMapa() {
   const mapaDiv = document.getElementById('mapa');
   if (!mapaDiv) return;
   mapaDiv.innerHTML = '';
+
+  // Capítols normals
   CAPITOLS.forEach(capitol => {
     const completat = estat.capitolsCompletats.includes(capitol.id);
     const desbloquejat = capitol.desbloquejat || estat.capitolsCompletats.includes(capitol.requereix);
@@ -277,10 +286,28 @@ function carregarMapa() {
     card.innerHTML = html;
     mapaDiv.appendChild(card);
   });
-  estat.rutesDesbloquejades.forEach(rutaId => {
+
+  // Rutes secretes - sempre visibles
+  RUTES_SECRETES.forEach(ruta => {
+    const desbloquejada = estat.rutesDesbloquejades.includes(ruta.id);
     const card = document.createElement('div');
-    card.className = 'capitol-card ruta-secreta';
-    card.innerHTML = `<div class="capitol-icona">🗝️</div><h3>Ruta Secreta</h3><p>Contingut ocult desbloquejat!</p><button class="btn" onclick="carregarCapitol('${rutaId}.json')">Entrar</button>`;
+    card.className = 'capitol-card ruta-secreta' + (desbloquejada? '' : ' bloquejat');
+
+    if(desbloquejada) {
+      card.innerHTML = `
+        <div class="capitol-icona">${ruta.icona}</div>
+        <h3>${ruta.nom}</h3>
+        <p style="color:#FFD700;">${LANG.ruta_secreta}</p>
+        <button class="btn" onclick="carregarCapitol('${ruta.id}.json')">Entrar</button>
+      `;
+    } else {
+      card.innerHTML = `
+        <div class="capitol-icona" style="filter:grayscale(1) brightness(0.3);">${ruta.icona}</div>
+        <h3 style="color:#555;">???</h3>
+        <p style="color:#666; font-size:12px;">${ruta.desc}</p>
+        <p style="color:#444; margin-top:8px;">🔒 ${LANG.bloquejat}</p>
+      `;
+    }
     mapaDiv.appendChild(card);
   });
 }
@@ -582,7 +609,7 @@ function mostrarGremi(tab, e) {
       fetch('./data/llegendes_girona.json').then(r => r.json()).catch(()=>[]),
       fetch('./data/llegendes_valencia.json').then(r => r.json()).catch(()=>[])
     ])
- .then(([barcelona, girona, valencia]) => {
+.then(([barcelona, girona, valencia]) => {
       const totes = [...barcelona,...girona,...valencia];
       cont.innerHTML = '';
       if(totes.length === 0) {
@@ -615,7 +642,7 @@ function mostrarGremi(tab, e) {
         }
       });
     })
- .catch(err => console.error('Error carregant llegendes:', err));
+.catch(err => console.error('Error carregant llegendes:', err));
   }
 } // <- CIERRE DE mostrarGremi
 
