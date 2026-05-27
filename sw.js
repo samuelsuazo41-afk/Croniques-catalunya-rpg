@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v57';
+const CACHE_VERSION = 'v60';
 const CACHE_NAME = `croniques-catalunya-rpg-${CACHE_VERSION}`;
 
 const urlsToCache = [
